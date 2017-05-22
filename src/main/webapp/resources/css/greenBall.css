@@ -1,0 +1,128 @@
+.captura-right-content {
+	width:100%;
+	border-bottom:1px;
+	margin-bottom: 20px;
+	padding-bottom: 50px;
+}
+
+.captura-right-label {
+	width:100%;
+	border-bottom:1px;
+	margin-bottom: 20px;
+	padding-bottom: 10px;
+}
+
+.container .badfile {
+	box-shadow:0 1px 2px rgba(0,0,0,0.3);
+	padding: 20px;
+	margin-bottom: 50px;
+	border: 1px solid #eee;
+	background: #f5f5f5;
+}
+
+.captura-center-content {
+	width:100%;
+	border-bottom:1px;
+	margin-bottom: 5px;
+	padding-bottom: 10px;
+	padding:10px;
+}
+
+.groups {
+	border: 3px solid rgb(204,204,204);
+}
+
+.groups td{
+	border: none;
+}
+
+.groups2 {
+	border: 3px solid rgb(204,204,204);
+}
+
+.tiempo{
+	width:30px;
+  	position: relative;
+  	top: 8px;
+	left: 339px
+}
+
+.timeMatch{
+	width:60px;
+  	position: relative;
+  	top: 1px;
+	left: 280px;
+	margin-bottom: 1px;
+}
+
+.timeMatch2{
+	width:60px;
+  	position: absolute;
+  	top: 115px;
+	left: 280px;
+	margin-bottom: 1px;
+}
+
+.dayMatch{
+	width:60px;
+  	position: relative;
+  	top: 1px;
+	left: 280px;
+	margin-bottom: 1px;
+}
+
+.dayMatch2{
+	width:60px;
+  	position: absolute;
+  	top: 136px;
+	left: 280px;
+	margin-bottom: 1px;
+}
+
+.fieldMatch{
+	width:80px;
+  	position: relative;
+  	top: 1px;
+	left: 280px;
+	margin-bottom: 1px;
+}
+
+.fieldMatch2{
+	width:80px;
+  	position: absolute;
+  	top: 150px;
+	left: 280px;
+	margin-bottom: 1px;
+}
+
+.tiempo2{
+	width:30px;
+  	position: absolute;
+  	top: 77px;
+	left: 338px;
+}
+
+.tiempo2D{
+	width:30px;
+  	position: absolute;
+  	top: 110px;
+	left: 338px;
+}
+
+.noMatch {
+	border: 3px solid rgb(204,204,204);
+}
+
+.tdNoMatch{
+	background-color: black;
+	height: 60px;
+	width:190px;
+}
+
+.tiempoRR{
+	width: inherit;
+  	position: absoluto;
+	float: right;
+	top: 0;
+}
+

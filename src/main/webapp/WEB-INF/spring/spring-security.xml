@@ -1,0 +1,96 @@
+<beans:beans xmlns="http://www.springframework.org/schema/security"
+	xmlns:beans="http://www.springframework.org/schema/beans" 
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+	http://www.springframework.org/schema/beans/spring-beans.xsd
+	http://www.springframework.org/schema/security
+	http://www.springframework.org/schema/security/spring-security.xsd">
+	
+	<beans:import resource="/appServlet/servlet-context.xml"/>
+
+	<http auto-config="true">
+
+		<intercept-url pattern="/admin**" access="hasRole('ROLE_ADMIN')" />
+		<intercept-url pattern="/persons" access="hasRole('ROLE_USER')" />
+
+		
+		<access-denied-handler error-page="/403" />
+
+		<!--  form-login
+		    login-page="/login"
+		    default-target-url="/welcome"
+			authentication-failure-url="/login?error"
+			username-parameter="username"
+			password-parameter="password" />
+		<logout logout-success-url="/login?logout"  />-->
+		
+		<csrf/>
+	</http>
+	
+	<beans:bean id="myDataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
+        <beans:property name="driverClassName" value="com.mysql.jdbc.Driver"/>
+        <beans:property name="url" value="jdbc:mysql://localhost:3306/jmtest?useSSL=false"/>
+        <beans:property name="username" value="root"/>
+        <beans:property name="password" value="admin"/>
+    </beans:bean>
+    
+    <beans:bean id="mySessionFactory" class="org.springframework.orm.hibernate5.LocalSessionFactoryBean">
+        <beans:property name="dataSource" ref="myDataSource"/>
+        <beans:property name="configLocation" value="classpath:hibernate.cfg.xml"/>
+        <!--  beans:property name="mappingResources">
+            <beans:list>
+                <beans:value>Person.hbm.xml</beans:value>
+            </beans:list>
+        </beans:property>-->
+        <beans:property name="hibernateProperties">
+            <beans:value>
+                hibernate.dialect=org.hibernate.dialect.MySQLDialect
+                hibernate.show_sql=true
+            </beans:value>
+            
+        </beans:property>
+    </beans:bean>
+	
+	
+	<beans:bean id="myUserDAO" class="com.bj.greenball.dao.UserDAOImpl">
+     	<beans:property name="sessionFactory" ref="mySessionFactory"/>
+	</beans:bean>
+	
+	<beans:bean id="myUserRolesDAO" class="com.bj.greenball.dao.UserRolesDAOImpl">
+     	<beans:property name="sessionFactory" ref="mySessionFactory"/>
+	</beans:bean>
+	
+	<beans:bean id="myUserService" class="com.bj.greenball.service.UserServiceImpl">
+		<beans:property name="userDAO" ref="myUserDAO"></beans:property>
+	</beans:bean>
+	
+	<beans:bean id="myUserRolesService" class="com.bj.greenball.service.UserRolesServiceImpl">
+		<beans:property name="userRolesDAO" ref="myUserRolesDAO"></beans:property>
+	</beans:bean>
+	
+	<beans:bean id="customUserDetailsService" class="com.bj.greenball.security.CustomUserDetailsService">
+		<beans:property name="userService" ref="myUserService"></beans:property>
+		<beans:property name="userRolesService" ref="myUserRolesService"></beans:property>
+	</beans:bean>
+	
+	<!-- Select users and user_roles from database   -->
+	<authentication-manager>
+	  <authentication-provider user-service-ref="customUserDetailsService"/>
+	</authentication-manager>
+	
+	<!--  http auto-config="true">
+		<intercept-url pattern="/admin**" access="hasRole('ROLE_ADMIN')" />
+		<intercept-url pattern="/persons" access="hasRole('ROLE_ADMIN')" />
+		<csrf disabled="true" />
+	</http>
+
+	<authentication-manager>
+		<authentication-provider>
+			<user-service>
+				<user name="admin" password="nimda" authorities="ROLE_ADMIN" />
+			</user-service>
+		</authentication-provider>
+	</authentication-manager>--> 
+	
+
+</beans:beans>

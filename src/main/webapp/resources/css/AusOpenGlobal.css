@@ -1,0 +1,672 @@
+/* This file is for general styles that can be used across events */
+@import "helpers";
+
+/***element styles***/
+body {
+  font-size: .75em;
+  font-family: 'sourcesanspro-regular', Helvetica, Arial, sans-serif;
+  color: #000000;
+}
+
+img {
+  /*display:block;*/
+  border: 0;
+}
+
+select, input {
+  font-size: 1em;
+  color: #000000;
+}
+
+object, a {
+  outline: none;
+  text-decoration: none;
+}
+
+/***link styles***/
+
+A {
+  &:link, &:active {
+    color: $link;
+  }
+  &:visited {
+    color: $link_visited;
+  }
+  &.black {
+    &:link, &:active, &:visited {
+      color: #000000;
+      text-decoration: none;
+    }
+  }
+  &.blue {
+    &:link, &:active, &:visited {
+      color: #0098DA;
+      text-decoration: none;
+    }
+  }
+  &.footer {
+    &:link, &:active {
+      font-size: .9em;
+      color: #FCAE1A;
+    }
+    &:visited {
+      font-size: .9em;
+      color: #A2DBFE;
+    }
+  }
+  &.sumScoresWin {
+    &:link, &:active, &:visited {
+      color: #CA4710;
+      text-decoration: none;
+      font-weight: bold;
+    }
+  }
+  &.sumScores {
+    &:link, &:active, &:visited {
+      color: #3D87A9;
+      text-decoration: none;
+      font-weight: bold;
+    }
+  }
+  &.articleTitleLink {
+    &:link, &:active, &:visited {
+      font-size: .8em;
+      font-weight: bold;
+      text-decoration: none;
+    }
+  }
+}
+
+h2 A.blue {
+  &:link, &:active, &:visited {
+    color: #0098DA;
+    text-decoration: none;
+  }
+}
+
+h3 A.blue {
+  &:link, &:active, &:visited {
+    color: #0098DA;
+    text-decoration: none;
+  }
+}
+
+/***text styles***/
+
+h1 {
+  margin: 0 0 0 0;
+  font-size: 1.1em;
+  font-weight: bold;
+  &.pageHeader {
+    margin: 12px 0px 5px 0px;
+    font-size: 2em;
+    color: #009BDE;
+    &.articleDetail {
+      font-size: 2.5em;
+      font-weight: normal;
+      line-height: 30px;
+    }
+  }
+  &.profile {
+    font-family:'sourcesanspro-regular', Helvetica, Arial, sans-serif;
+    color: #000000;
+    font-size: 30px;
+  }
+}
+
+h2 {
+  margin: 0 0 8px 0;
+  font-size: 2.0em;
+  font-weight: bold;
+  &.players {
+    float: left;
+    margin: 0px;
+    font-weight: normal;
+    font-size: 48px;
+    color: #0091D2;
+    font-family: 'sourcesanspro-regular', Helvetica, Arial, sans-serif;
+    text-transform: uppercase;
+  }
+  &.news, &.schedule {
+    margin: 0 0 10px 0;
+    font-weight: normal;
+    font-size: 48px;
+    color: #0091D2;
+    font-family: 'sourcesanspro-regular', Helvetica, Arial, sans-serif;
+    text-transform: uppercase;
+  }
+  &.news span, &.schedule span {
+    font-family: 'sourcesanspro-light', Helvetica, Arial, sans-serif;
+  }
+  &.articles {
+    margin: 0 0 5px 0;
+    font-weight: normal;
+    font-size: 48px;
+    color: #0091D2;
+    font-family: 'sourcesanspro-regular', Helvetica, Arial, sans-serif;
+  }
+}
+
+h3 {
+  font-size: 1em;
+  margin: 0 0 5px 0;
+  padding: 0 0 0 0;
+  &.news {
+    margin: 0px;
+    font-size: 25px;
+    color: #0091D2;
+    font-weight: normal;
+    line-height: 25px;
+  }
+  &.title {
+    margin: 0px;
+    font-size: 25px;
+    color: #0091D2;
+    font-weight: normal;
+    line-height: 25px;
+    font-family: 'sourcesanspro-regular', Helvetica, Arial, sans-serif;
+  }
+  &.share {
+    float: left;
+    margin: 0;
+    font-weight: normal;
+    font-size: 18px;
+    line-height:35px;
+    color: #0091D2;
+    font-family: 'sourcesanspro-regular', Helvetica, Arial, sans-serif;
+  }
+  &.stub {
+    margin: 0 0 5px 0;
+    font-weight: normal;
+    font-size: 30px;
+    color: #0091D2;
+    font-family: 'sourcesanspro-regular', Helvetica, Arial, sans-serif;
+  }
+  &.guide {
+    margin: 0 0 10px 0;
+    font-weight: normal;
+    font-size: 28px;
+    color: #0091D2;
+    font-family: 'sourcesanspro-regular', Helvetica, Arial, sans-serif;
+    line-height: 24px;
+  }
+  &.fancentre {
+    margin: 0 0 10px 0;
+    font-weight: normal;
+    font-size: 28px;
+    line-height: 28px;
+    color: #0091D2;
+    font-family: 'sourcesanspro-regular', Helvetica, Arial, sans-serif;
+  }
+}
+
+h4 {
+  margin: 3px 0 6px 0;
+  font-size: 1.2em;
+  &.fancentre {
+    margin: 0px;
+    font-weight: normal;
+    font-size: 20px;
+    line-height: 20px;
+    color: #0091D2;
+    font-family: 'sourcesanspro-regular', Helvetica, Arial, sans-serif;
+  }
+}
+
+.countdownText {
+  font-size: 1.1em;
+  font-weight: bold;
+  color: #FFFFFF;
+}
+
+.footerText {
+  color: #0096D9;
+}
+
+.bold {
+  font-weight: bold;
+}
+
+/***background styles***/
+
+.tableBorder {
+  background-color: #0B5272;
+}
+
+.whiteBg {
+  background-color: #FFFFFF;
+}
+
+.blueBg {
+  background-color: #029ACD;
+}
+
+/***accessibility styles***/
+
+.access {
+  position: absolute;
+  left: -3000px;
+  width: 500px;
+}
+
+/***photo gallery styles***/
+
+#galleryNav {
+  float: left;
+  width: 590px;
+  width: 570px !important;
+  /*height:52px; */
+  /*height:32px !important;*/
+  color: #0D6186;
+  background: #D0E5EF;
+  padding: 10px 10px 10px 10px;
+  margin: 0 0 0 0;
+  ul {
+    list-style-type: none;
+    float: left;
+    width: 523px;
+    margin: 0;
+    padding: 2px 0 0 0;
+    li {
+      float: left;
+      width: 240px;
+      display: inline;
+      line-height: 18px;
+      margin: 0;
+      padding: 0 10px 5px 10px;
+    }
+  }
+}
+
+.archiveSelect {
+  width: auto;
+}
+
+#galleryIndex ul {
+  list-style-type: none;
+  float: left;
+  margin: 0px;
+  width: 588px;
+  padding: 0px 0px 0px 0px;
+  background-color: #D0E5EF;
+  border-bottom: 1px solid #ffffff;
+  /* border:1px solid red; */
+  li {
+    float: left;
+    font-weight: bold;
+    display: block;
+    margin: 0px;
+    width: 196px;
+    height: 100%;
+    padding: 15px 0px 10px 0px;
+    background-color: #D0E5EF;
+    text-align: center;
+    img {
+      /*float:left;*/
+      margin-top: 0px;
+      margin-right: auto;
+      margin-bottom: 5px;
+      margin-left: auto;
+      width: 150px;
+      height: 150px;
+      border: 1px solid #0D6186;
+    }
+    a {
+      text-decoration: none;
+    }
+    p {
+      font-weight: normal;
+      color: #000000;
+      padding: 0;
+    }
+  }
+}
+
+#galleryIndexCaption {
+  width: 131px;
+  color: #000000;
+  margin-top: 0px;
+  margin-bottom: 0px;
+  margin-right: auto;
+  margin-left: auto;
+  text-align: left;
+  a.black {
+    font-weight: normal;
+  }
+}
+
+#galleryContainer {
+  margin: 0 0 10px 0;
+  float: left;
+}
+
+#galleryTitle {
+  text-align: center;
+  margin: 0;
+  padding: 0;
+  line-height: 20px;
+  clear: left;
+  font-size: 1em;
+  color: #0098DA;
+  font-weight: bold;
+}
+
+#galleryContainer ul {
+  list-style-type: none;
+  float: left;
+  margin: 0px;
+  width: 100%;
+  width: 588px;
+  padding: 0px 0px 0px 0px;
+  background-color: #D0E5EF;
+  border-bottom: 1px solid #ffffff;
+  /* border:1px solid red; */
+  li {
+    float: left;
+    font-weight: bold;
+    display: block;
+    margin: 0px;
+    height: 100%;
+    width: 196px;
+    padding: 10px 0px 10px 0px;
+    background-color: #D0E5EF;
+    text-align: center;
+    img {
+      /*float:left;*/
+      margin-top: 0px;
+      margin-bottom: 5px;
+      width: 150px;
+      height: 150px;
+      margin-left: auto;
+      margin-right: auto;
+      border: 1px solid #0D6186;
+    }
+    a {
+      text-decoration: none;
+    }
+    p {
+      font-weight: normal;
+      color: #000000;
+      margin: 0;
+      padding: 0;
+    }
+  }
+}
+
+#galleryCaption {
+  width: 150px;
+  margin-top: 0px;
+  margin-left: auto;
+  margin-right: auto;
+  text-align: left;
+}
+
+#gallerySubNav {
+  float: left;
+  width: 590px;
+  width: 572px ! important;
+  height: 50px;
+  height: 16px ! important;
+  color: #004B85;
+  background: #D0E5EF;
+  /*url('/images/misc/aus_ms_00000gk.gif') no-repeat bottom*/
+  padding: 16px 9px 18px 9px;
+  margin: 0 0 10px 0;
+  text-align: center;
+}
+
+#galleryInfo {
+  margin: 0 auto;
+  padding: 0;
+}
+
+#galleryPrev {
+  float: left;
+  width: 113px;
+  height: 20px;
+}
+
+#galleryNext {
+  float: right;
+  width: 113px;
+  height: 20px;
+}
+
+#photoTable {
+  clear: left;
+  background-color: #D0E5EF;
+  margin: 0 0 0 0;
+}
+
+#photo_l {
+  width: 590px;
+  width: 517px ! important;
+  height: 440px;
+  height: 345px ! important;
+  padding: 48px 35px 47px 34px;
+}
+
+#photo_p {
+  width: 590px;
+  width: 280px ! important;
+  height: 440px;
+  height: 400px ! important;
+  padding: 20px 155px 20px 155px;
+}
+
+#caption {
+  font-weight: bold;
+  background-color: #0D6186;
+  color: #FFFFFF;
+  padding: 5px 70px 5px 70px;
+  p {
+    margin: 0;
+    padding: 0;
+  }
+}
+
+/*** news styles ***/
+/*bio styles*/
+
+#bios ul, #otherBlogs ul {
+  list-style-type: none;
+  padding: 0 0 0 0;
+  margin: 5px 0 5px 0;
+  text-align: left;
+}
+
+#bios ul li, #otherBlogs ul {
+  padding: 0;
+}
+
+/*rel content styles*/
+
+#relatedcontent ul {
+  list-style-type: none;
+  padding: 0 0 0 0;
+  margin: 5px 0 5px 0;
+  text-align: left;
+  li {
+    padding: 0;
+  }
+}
+
+/*img styles*/
+
+.imgBorder {
+  border: 1px solid #0D6186;
+}
+
+/* Sharing/Social Network Lists */
+
+#sharing {
+  width: 150px;
+  display: inline;
+  margin: 5px;
+  float: right;
+  clear: right;
+  h4 {
+    display: inline;
+    font-size: .9em;
+    float: left;
+  }
+}
+
+#shareLinks {
+  width: auto;
+  position: relative;
+  list-style-type: none;
+  margin: 0 0 0 5px;
+  padding: 0;
+  float: left;
+  li {
+    padding: 3px;
+    display: block;
+    float: left;
+  }
+}
+
+#rsscell a img {
+  float: left;
+  margin: 8px 10px 15px 0;
+}
+
+/********** styles for search results page **********/
+/* styles for search */
+
+#resultsContainer, #indexContainer {
+  .searchFormContainer {
+    position:relative;
+    margin: 0 0 20px 0;
+    padding: 0px;
+    @extend %extend_searchbox;
+    // override inputContainer and submitBtn classes
+    .inputContainer {position:relative !important; float:left !important; margin-bottom:5px; left:0px; top:0px; width:400px;}
+    .submitBtn{position:relative !important; float:right !important; margin-bottom:5px; left:0px; top:0px; width: 105px;}
+  }
+  #searchForm {
+    margin: 0px;
+    padding: 0px;
+    height: 24px;
+    #query {
+      float: left;
+      height: 18px;
+      width: 281px;
+      margin-right: 10px;
+    }
+  }
+  .helperText {
+    clear: left;
+    margin: 0 0 20px 0;
+  }
+  #resultsMessage {
+    margin: 0 0 15px 0;
+    font-weight: bold;
+  }
+  .searchResultsContainer {
+    padding: 0px;
+    padding-top: 15px;
+    border-top: solid 1px #000000;
+    ul {
+      list-style: none;
+      padding: 0 0 20px 0;
+      margin: 0px 0 5px 0;
+      border-bottom: solid 1px #000000;
+      li {
+        list-style: none;
+        padding: 10px 0 0 0;
+        margin-bottom: 10px;
+        border-top: solid 1px #EEE8F2;
+        min-height: 72px;
+        &:first-child {
+          border-top: none;
+          padding-top: 0;
+        }
+      }
+    }
+    .thumb {
+      float: left;
+      margin-right: 10px;
+    }
+    .title {
+      font-weight: bold;
+      color: #0098DA;
+      margin-right: 5px;
+      a {
+        font-weight: bold;
+        color: #0098DA;
+        margin-right: 5px;
+      }
+    }
+    .summary {
+      color: #666666;
+      em {
+        font-weight: bold;
+      }
+    }
+    .date {
+      color: #999999;
+    }
+    .title .star {
+      display: inline;
+      padding: 0;
+    }
+  }
+  .paginationContainer {
+    display: none;
+    text-align: center;
+    position: relative;
+    width: 400px;
+    margin: 0px auto;
+    a, span {
+      padding: 0px 6px;
+    }
+    .prev {
+      float: left;
+      background: none;
+    }
+    .next {
+      float: right;
+      background: none;
+    }
+  }
+}
+
+#searchBox .searchBtn {
+  background: url("/images/search/search_go.gif") no-repeat;
+  cursor: pointer;
+  width: 72px;
+  height: 19px;
+  border: none;
+  margin-left: 10px;
+}
+
+#searchResultsContainer hr {
+  margin: 10px 0px;
+  border: none;
+  border-bottom: solid 1px #0CA2E3;
+}
+
+.pageSearchButton {
+  background: none repeat scroll 0 0 #0090FF;
+  float: left;
+  font-family: Helvetica,Arial,sans-serif;
+  font-weight: bold;
+  height: 20px;
+  line-height: 20px;
+  margin-left: 10px;
+  padding: 0 3px;
+  width: 54px !important;
+  a {
+    color: #FFFFFF;
+    display: block;
+    height: 18px;
+    padding-left: 11px;
+    text-decoration: none;
+    width: 43px !important;
+  }
+}
+
+.ui-tabs-hide {
+  display: none;
+}

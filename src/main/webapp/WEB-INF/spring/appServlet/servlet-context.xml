@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns="http://www.springframework.org/schema/beans"  
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="http://www.springframework.org/schema/mvc 
+		http://www.springframework.org/schema/mvc/spring-mvc.xsd
+		http://www.springframework.org/schema/beans 
+		http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/tx 
+		http://www.springframework.org/schema/tx/spring-tx.xsd
+		http://www.springframework.org/schema/context 
+		http://www.springframework.org/schema/context/spring-context.xsd">
+		
+	<bean id="messageSource"
+      class="org.springframework.context.support.ReloadableResourceBundleMessageSource">
+    	<property name="basename" value="/WEB-INF/messages" />
+	</bean>
+	
+	<bean id="localeResolver"
+		class="org.springframework.web.servlet.i18n.SessionLocaleResolver">
+		<property name="defaultLocale" value="es" />
+	</bean>
+	
+	
+	
+	<bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+  
+        <!-- one of the several properties available; the maximum file size in bytes -->
+        <property name="maxUploadSizePerFile" value="5242880"/>
+    </bean>
+    
+       <bean id="conversionService"
+      class="org.springframework.context.support.ConversionServiceFactoryBean">
+    <property name="converters">
+        <list>
+            <bean class="com.bj.greenball.util.StringToCategory"/>
+            <bean class="com.bj.greenball.util.CategoryToString"/>
+        </list>
+    </property>
+	</bean>
+		
+	<mvc:annotation-driven conversion-service="conversionService"/>
+	<mvc:resources mapping="/resources/**" location="/resources/ , classpath:/resources/"  />
+	<context:component-scan base-package="com.bj.greenball" />	
+	
+	<bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+		<property name="prefix" value="/WEB-INF/views/" />
+		<property name="suffix" value=".jsp" />
+	</bean>
+	
+	
+	
+	
+	<bean id="myDataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
+        <property name="driverClassName" value="com.mysql.jdbc.Driver"/>
+        <property name="url" value="jdbc:mysql://localhost:3306/jmtest?useSSL=false"/>
+        <property name="username" value="root"/>
+        <property name="password" value="admin"/>
+    </bean>
+    
+    <bean id="mySessionFactory" class="org.springframework.orm.hibernate5.LocalSessionFactoryBean">
+        <property name="dataSource" ref="myDataSource"/>
+        <property name="configLocation" value="classpath:hibernate.cfg.xml"/>
+        <!--  beans:property name="mappingResources">
+            <beans:list>
+                <beans:value>Person.hbm.xml</beans:value>
+            </beans:list>
+        </beans:property>-->
+        <property name="hibernateProperties">
+            <value>
+                hibernate.dialect=org.hibernate.dialect.MySQLDialect
+                hibernate.show_sql=true
+            </value>
+            
+        </property>
+    </bean>
+    
+    
+    
+	
+	<bean id="transactionManager"
+            class="org.springframework.orm.hibernate5.HibernateTransactionManager">
+        <property name="sessionFactory" ref="mySessionFactory"/>
+    </bean>
+	
+	<tx:annotation-driven transaction-manager="transactionManager" proxy-target-class="false"/>
+	
+	
+	<bean id="tournamentDetCaterogiesIdDAO" class="com.bj.greenball.dao.TournamentDetCategoriesIdDAOImpl">
+     	<property name="sessionFactory" ref="mySessionFactory"/>
+	</bean>
+	
+	<bean id="tournamentDetCategoriesIdService" class="com.bj.greenball.service.TournamentDetCategoriesIdServiceImpl">
+		<property name="tournamentDetCategoriesIdDAO" ref="tournamentDetCaterogiesIdDAO"></property>
+	</bean>
+	
+	<bean id="matchDAO" class="com.bj.greenball.dao.MatchDAOImpl">
+     	<property name="sessionFactory" ref="mySessionFactory"/>
+	</bean>
+	
+	<bean id="groupsDAO" class="com.bj.greenball.dao.GroupsDAOImpl">
+     	<property name="sessionFactory" ref="mySessionFactory"/>
+	</bean>
+	
+	<bean id="matchService" class="com.bj.greenball.service.MatchServiceImpl">
+		<property name="matchDAO" ref="matchDAO"></property>
+	</bean>
+	
+	<bean id="groupsService" class="com.bj.greenball.service.GroupsServiceImpl">
+		<property name="groupsDAO" ref="groupsDAO"></property>
+	</bean>
+	
+	<bean id="tournamentDAO" class="com.bj.greenball.dao.TournamentDAOImpl">
+     	<property name="sessionFactory" ref="mySessionFactory"/>
+	</bean>
+	
+	<bean id="tournamentService" class="com.bj.greenball.service.TournamentServiceImpl">
+		<property name="tournamentDAO" ref="tournamentDAO"></property>
+	</bean>
+	
+	<bean id="tournamentDetailsDAO" class="com.bj.greenball.dao.TournamentDetailsDAOImpl">
+     	<property name="sessionFactory" ref="mySessionFactory"/>
+	</bean>
+	
+	<bean id="tournamentDetailsService" class="com.bj.greenball.service.TournamentDetailsServiceImpl">
+		<property name="tournamentDetailsDAO" ref="tournamentDetailsDAO"></property>
+	</bean>
+	
+	<bean id="playerDAO" class="com.bj.greenball.dao.PlayerDAOImpl">
+     	<property name="sessionFactory" ref="mySessionFactory"/>
+	</bean>
+	
+	<bean id="playerService" class="com.bj.greenball.service.PlayerServiceImpl">
+		<property name="playerDAO" ref="playerDAO"></property>
+		<property name="tournamentDAO" ref="tournamentDAO"></property>
+	</bean>
+	<bean id="categoryDAO" class="com.bj.greenball.dao.CategoryDAOImpl">
+     	<property name="sessionFactory" ref="mySessionFactory"/>
+	</bean>
+	<bean id="categoryService" class="com.bj.greenball.service.CategoryServiceImpl">
+		<property name="categoryDAO" ref="categoryDAO"></property>
+		<property name="tournamentDAO" ref="tournamentDAO"></property>
+	</bean>
+	
+ 
+    
+    
+    
+    
+	
+</beans>		
