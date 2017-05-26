@@ -5,7 +5,7 @@
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form" %>
 <%@ taglib uri="http://www.springframework.org/tags" prefix="spring" %>
 <%String pathGreenBall = request.getContextPath(); %>
-<c:url var="addAction" value="/addDraws" ></c:url>
+<c:url var="addAction" value="/${shortName}/addDraws" ></c:url>
 <c:choose>
     <c:when test="${currentSuperMode eq 'D' }">
        <c:set var="isD" value="tab active"></c:set>

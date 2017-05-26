@@ -111,11 +111,9 @@
 	.modal{width: auto; background-color: transparent; left:20%;}
 	.modal.fade.in{width: auto; background-color: transparent; left:20%;}
 	
-	
-
-    
-	
-	
+	.player-vs .tab-content.single-match {background: transparent;}
+	.player-vs .tab-content .tab-content {background: transparent;}
+	.player-vs .tab-links-match {background: transparent;}
 </style>	
 	
 <script type="text/javascript">
@@ -1300,7 +1298,7 @@ function cancelTabChange(){
 
 
 
-<c:url var="addAction" value="/addDraws" ></c:url>
+<c:url var="addAction" value="/${shortName}/addDraws" ></c:url>
 
 
 <section class="drawer">
@@ -1308,7 +1306,8 @@ function cancelTabChange(){
       <div class="general general-results players">
            <div class="top-score-title right-score col-md-16">
            	  <div id ="atp-match"class="top-score-title player-vs">
-                <h3>Total <span>Scores</span><span class="point-little">.</span></h3>
+                <h3><spring:message code="draws" /><span class="point-little">.</span></h3>
+                <p style="text-align:center;"><img alt="" src="<%=pathGreenBall%>/resources/images/draws/drawsState4.png" align="middle" ></p>
                 <div class="main">
                        <div class="tabs standard single-pl">
                                 <ul class="tab-links-match tb-set">
@@ -1412,6 +1411,7 @@ function cancelTabChange(){
                                             	<div id="tab1a" class="${isSM}">
                                             		<form:form action="${addAction}" commandName="draws" name="draws" id="draws">
                                             		<input type="hidden" name="tab" id ="tab" value="">
+                                            		<input type="hidden" value="${shortName}" name="shortName"></input>
                                             		<input type="hidden" name="actualMode" id ="actualMode" value="${currentMode }">
                                             		
                                             		 <!-- Modal -->
@@ -1425,7 +1425,7 @@ function cancelTabChange(){
 															          <h4 class="modal-title"><spring:message code="draws.match.data" /></h4>
 															        </div>
 															        <div class="modal-body">
-															          <p>En caso de proceder perdera la información que no haya salvado previamente</p>
+															          <p><spring:message code="draws.modalTabSwitch"/></p>
 															          
 																        
 															          
@@ -1443,10 +1443,10 @@ function cancelTabChange(){
                                             		
                                             			<div class="captura-right-content">
                                             				<div class="form-group">
-                                            					<label class="col-sm-2 control-label">Categoria</label>
+                                            					<label class="col-sm-2 control-label"><spring:message code="draws.category"/></label>
                                             					<div class="col-sm-4">
 																	<select name="mensSinglesCat" id="mensSinglesCat" class="form-control" id="mensSinglesCat" onchange="javascript:categorySelectedMethod('draws');" >
-																		<option value="0">Selecciona una Categoria</option>
+																		<option value="0"><spring:message code="draws.selectCategory"/></option>
 																		<c:forEach items="${mensCategoriesS}" var="cat">
 																					<c:choose>
 																						<c:when test="${mscSelected == cat.id}">
@@ -1654,7 +1654,7 @@ function cancelTabChange(){
 																		
 																	</table>
 																	
-																	<a href="/en_AU/players/overview/atpf324.html" id="winnerf">R. Federer</a>
+																	<a href="/en_AU/players/overview/atpf324.html" id="winnerf"></a>
 																</div>
 																<c:set var="c" value="${f*4}"></c:set>
 																<c:set var="d" value="${(f*2)+1 }"></c:set>
@@ -1824,6 +1824,8 @@ function cancelTabChange(){
                                      
           					  </div><!--Close Top Match-->
            				</div>
+           				<p><input class="pl-point-button" type="button" name="uploadFile" onclick="window.location.href='<%=pathGreenBall%>/${shortName}/players'"
+							value="<spring:message code="prev.players"/>" /></p>
            			</div>
          		 </div>
          	</div>

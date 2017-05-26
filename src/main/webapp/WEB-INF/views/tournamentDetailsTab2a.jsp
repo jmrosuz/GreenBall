@@ -214,8 +214,8 @@
 																	<c:set var="categoria" value="${ categoria} ${categor.name}, "></c:set>
 																</c:forEach>
 																<td>${categoria}</td>
-																<td><a href="<c:url value='/editTournamentDetails/${configura.id}' />" ><spring:message code="greenBall.editar" /></a></td>
-																<td><a href="<c:url value='/removeTournamentDetails/${configura.id}' />" ><spring:message code="greenBall.borrar" /></a></td>
+																<td><a href="<c:url value='/${shortName}/editTournamentDetails/${configura.id}' />" ><spring:message code="greenBall.editar" /></a></td>
+																<td><a href="<c:url value='/${shortName}/removeTournamentDetails/${configura.id}' />" ><spring:message code="greenBall.borrar" /></a></td>
 																<c:set var="categoria" value=""></c:set>
 															</tr>
 														</c:forEach>

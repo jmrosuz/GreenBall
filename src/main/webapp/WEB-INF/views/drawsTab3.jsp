@@ -5,7 +5,7 @@
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form" %>
 <%@ taglib uri="http://www.springframework.org/tags" prefix="spring" %>
 <%String pathGreenBall = request.getContextPath(); %>
-<c:url var="addAction" value="/addDraws" ></c:url>
+<c:url var="addAction" value="/${shortName}/addDraws" ></c:url>
 <c:choose>
     <c:when test="${currentSuperMode eq 'M' }">
        <c:set var="isM" value="tab active"></c:set>
@@ -25,7 +25,7 @@
                                             		<c:otherwise>
                                             		<c:choose>
                                             			<c:when test="${fn:startsWith(currentMode, 'M')}">
-                                            				<li><a href="#tab1m"><spring:message code="category.mens" /></a></li>	
+                                            				<li><a href="#tab1m"><spring:message code="category.adults" /></a></li>	
                                             			</c:when>
                                             			<c:otherwise>
                                             				<li class="active"><a onclick="javascript:tabSelected('MA');" class="first-tabs" href="#tab1m"><spring:message code="category.adults" /></a></li>

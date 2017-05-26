@@ -126,8 +126,8 @@ public class TournamentDetailsController {
 	
 
 	
-	@RequestMapping(value = "/tournamentDetails", method = RequestMethod.GET)
-	public ModelAndView listTournaments() {
+	@RequestMapping(value = "/{shortName}/tournamentDetails", method = RequestMethod.GET)
+	public ModelAndView listTournaments(@PathVariable String shortName) {
 		List<Category> mensCategoriesS = new ArrayList<Category>();
 		List<Category> nvmensCategoriesS = new ArrayList<Category>();
 		List<Category> mensCategoriesD = new ArrayList<Category>();
@@ -174,7 +174,7 @@ public class TournamentDetailsController {
 		
 		//Authentication authentication =
 			//	(Authentication) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-		Tournament t =this.tournamentService.getTournamentByShortName("JMTOR"); 
+		Tournament t =this.tournamentService.getTournamentByShortName(shortName); 
 		
 		Set<Category> categories = t.getCategories();
 		Iterator<Category> iterator = categories.iterator();
@@ -305,6 +305,9 @@ public class TournamentDetailsController {
 	    
 	    model.addObject("currentMode", this.mode);
 		model.addObject("currentSuperMode", this.superMode);
+		
+		System.out.println("shorName vale:" + shortName);
+		model.addObject("shortName", shortName);
 		this.mode ="SM";
 		this.superMode = "S";
 	    
@@ -316,23 +319,24 @@ public class TournamentDetailsController {
 	
 	
 	
-	@RequestMapping(value="/addTournamentDetails",params="cancelar",method=RequestMethod.POST)
-    public ModelAndView cancelar(@ModelAttribute("tournamentDetails")  TournamentDetails t)
+	@RequestMapping(value="/{shortName}/addTournamentDetails",params="cancelar",method=RequestMethod.POST)
+    public ModelAndView cancelar(@ModelAttribute("tournamentDetails")  TournamentDetails t, @PathVariable String shortName)
     {
 		ModelAndView model = new ModelAndView("tournamentDetails");
 		model.addObject("tournamentDetails", new TournamentDetails());
+		model.addObject("shortName", shortName);
 		model.addObject("listTournamentDetails", this.tournamentDetailsService.listTournamentDetails());
 		//Authentication authentication =
 			//	(Authentication) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 
 		
-		model.setViewName("redirect:/tournamentDetails");
+		model.setViewName("redirect:/"+shortName+"/tournamentDetails");
 		
 		return model;
     }
 
-	@RequestMapping(value= "/addTournamentDetails", method = RequestMethod.POST)
-	public   ModelAndView addPerson(@Valid @ModelAttribute("tournamentDetails")  TournamentDetails t, BindingResult result){
+	@RequestMapping(value= "/{shortName}/addTournamentDetails", method = RequestMethod.POST)
+	public   ModelAndView addPerson(@Valid @ModelAttribute("tournamentDetails")  TournamentDetails t, BindingResult result, @PathVariable String shortName){
 		ModelAndView model = new ModelAndView("tournamentDetails");
 		if (result.hasErrors())
 		{
@@ -340,16 +344,17 @@ public class TournamentDetailsController {
 			model.addObject("tournamentDetails", t);
 			model.addObject("listTournamentDetails", this.tournamentDetailsService.listTournamentDetails());
 			model.addObject("hasError", " has-error");
+			model.addObject("shortName", shortName);
 			return model;
 		}
 		else{
 			t.setMode("SM");
 			t.setCategories(categoryCache);
 			if (t.getId()==0){
-				Tournament td = this.tournamentService.getTournamentByShortName("JMTOR");
+				Tournament td = this.tournamentService.getTournamentByShortName(shortName);
 				td.getTournamentDetails().add(t);
 				this.tournamentService.updateTournament(td);
-				model.setViewName("redirect:/tournamentDetails");
+				model.setViewName("redirect:/"+shortName+"/tournamentDetails");
 			}
 			else{
 				TournamentDetails tourDet = this.tournamentDetailsService.getTournamentDetailsById(t.getId());
@@ -373,15 +378,16 @@ public class TournamentDetailsController {
 				tourDet.setGroupsSize(t.getGroupsSize());
 				tourDet.setServeMode(t.getServeMode());
 				this.tournamentDetailsService.updateTournamentDetails(tourDet);
-				model.setViewName("redirect:/tournamentDetails");
+				model.setViewName("redirect:/"+shortName+"/tournamentDetails");
+				model.addObject("shortName", shortName);
 			    }//else interno
 			}//else global
 		return model;
 		
 	}
 	
-	@RequestMapping(value= "/addTournamentDetails", params="W", method = RequestMethod.POST)
-	public   ModelAndView addWomans(@Valid @ModelAttribute("tournamentDetails")  TournamentDetails t, BindingResult result){
+	@RequestMapping(value= "/{shortName}/addTournamentDetails", params="W", method = RequestMethod.POST)
+	public   ModelAndView addWomans(@Valid @ModelAttribute("tournamentDetails")  TournamentDetails t, BindingResult result, @PathVariable String shortName){
 		ModelAndView model = new ModelAndView("tournamentDetails");
 		if (result.hasErrors())
 		{
@@ -389,18 +395,19 @@ public class TournamentDetailsController {
 			model.addObject("tournamentDetailsWomans", t);
 			model.addObject("listTournamentDetails", this.tournamentDetailsService.listTournamentDetails());
 			model.addObject("hasError", " has-error");
+			model.addObject("shortName", shortName);
 			return model;
 		}
 		else{
 			t.setMode("SW");
 			t.setCategories(categoryCache);
 			if (t.getId()==0){
-				Tournament td = this.tournamentService.getTournamentByShortName("JMTOR");
+				Tournament td = this.tournamentService.getTournamentByShortName(shortName);
 				td.getTournamentDetails().add(t);
 				this.tournamentService.updateTournament(td);
 				this.mode ="SW";
 				this.superMode = "S";
-				model.setViewName("redirect:/tournamentDetails");
+				model.setViewName("redirect:/"+shortName+"/tournamentDetails");
 			}
 			else{
 				TournamentDetails tourDet = this.tournamentDetailsService.getTournamentDetailsById(t.getId());
@@ -424,17 +431,18 @@ public class TournamentDetailsController {
 				tourDet.setGroupsSize(t.getGroupsSize());
 				tourDet.setServeMode(t.getServeMode());
 				this.tournamentDetailsService.updateTournamentDetails(tourDet);
-				model.setViewName("redirect:/tournamentDetails");
+				model.setViewName("redirect:/"+shortName+"/tournamentDetails");
 				this.mode ="SW";
 				this.superMode = "S";
 			    }//else interno
 			}//else global
+		model.addObject("shortName", shortName);
 		return model;
 		
 	}
 	
-	@RequestMapping(value= "/addTournamentDetails", params="DM", method = RequestMethod.POST)
-	public   ModelAndView addDoubleMens(@Valid @ModelAttribute("tournamentDetails")  TournamentDetails t, BindingResult result){
+	@RequestMapping(value= "/{shortName}/addTournamentDetails", params="DM", method = RequestMethod.POST)
+	public   ModelAndView addDoubleMens(@Valid @ModelAttribute("tournamentDetails")  TournamentDetails t, BindingResult result, @PathVariable String shortName){
 		ModelAndView model = new ModelAndView("tournamentDetails");
 		if (result.hasErrors())
 		{
@@ -442,18 +450,19 @@ public class TournamentDetailsController {
 			model.addObject("tournamentDetailsDoublesM", t);
 			model.addObject("listTournamentDetails", this.tournamentDetailsService.listTournamentDetails());
 			model.addObject("hasError", " has-error");
+			model.addObject("shortName", shortName);
 			return model;
 		}
 		else{
 			t.setMode("DM");
 			t.setCategories(categoryCache);
 			if (t.getId()==0){
-				Tournament td = this.tournamentService.getTournamentByShortName("JMTOR");
+				Tournament td = this.tournamentService.getTournamentByShortName(shortName);
 				td.getTournamentDetails().add(t);
 				this.tournamentService.updateTournament(td);
 				this.mode ="DM";
 				this.superMode = "D";
-				model.setViewName("redirect:/tournamentDetails");
+				model.setViewName("redirect:/"+shortName+"/tournamentDetails");
 			}
 			else{
 				TournamentDetails tourDet = this.tournamentDetailsService.getTournamentDetailsById(t.getId());
@@ -477,17 +486,18 @@ public class TournamentDetailsController {
 				tourDet.setGroupsSize(t.getGroupsSize());
 				tourDet.setServeMode(t.getServeMode());
 				this.tournamentDetailsService.updateTournamentDetails(tourDet);
-				model.setViewName("redirect:/tournamentDetails");
+				model.setViewName("redirect:/"+shortName+"/tournamentDetails");
 				this.mode ="DM";
 				this.superMode = "D";
 			    }//else interno
 			}//else global
+		model.addObject("shortName", shortName);
 		return model;
 		
 	}
 	
-	@RequestMapping(value= "/addTournamentDetails", params="DW", method = RequestMethod.POST)
-	public   ModelAndView addDoubleWomans(@Valid @ModelAttribute("tournamentDetails")  TournamentDetails t, BindingResult result){
+	@RequestMapping(value= "/{shortName}/addTournamentDetails", params="DW", method = RequestMethod.POST)
+	public   ModelAndView addDoubleWomans(@Valid @ModelAttribute("tournamentDetails")  TournamentDetails t, BindingResult result, @PathVariable String shortName){
 		ModelAndView model = new ModelAndView("tournamentDetails");
 		if (result.hasErrors())
 		{
@@ -495,18 +505,19 @@ public class TournamentDetailsController {
 			model.addObject("tournamentDetailsDoublesW", t);
 			model.addObject("listTournamentDetails", this.tournamentDetailsService.listTournamentDetails());
 			model.addObject("hasError", " has-error");
+			model.addObject("shortName", shortName);
 			return model;
 		}
 		else{
 			t.setMode("DW");
 			t.setCategories(categoryCache);
 			if (t.getId()==0){
-				Tournament td = this.tournamentService.getTournamentByShortName("JMTOR");
+				Tournament td = this.tournamentService.getTournamentByShortName(shortName);
 				td.getTournamentDetails().add(t);
 				this.tournamentService.updateTournament(td);
 				this.mode ="MA";
 				this.superMode = "M";
-				model.setViewName("redirect:/tournamentDetails");
+				model.setViewName("redirect:/"+shortName+"/tournamentDetails");
 			}
 			else{
 				TournamentDetails tourDet = this.tournamentDetailsService.getTournamentDetailsById(t.getId());
@@ -530,17 +541,18 @@ public class TournamentDetailsController {
 				tourDet.setGroupsSize(t.getGroupsSize());
 				tourDet.setServeMode(t.getServeMode());
 				this.tournamentDetailsService.updateTournamentDetails(tourDet);
-				model.setViewName("redirect:/tournamentDetails");
+				model.setViewName("redirect:/"+shortName+"/tournamentDetails");
 				this.mode ="DW";
 				this.superMode = "D";
 			    }//else interno
 			}//else global
+		model.addObject("shortName", shortName);
 		return model;
 		
 	}
 	
-	@RequestMapping(value= "/addTournamentDetails", params="MA", method = RequestMethod.POST)
-	public   ModelAndView addMixesAdults(@Valid @ModelAttribute("tournamentDetails")  TournamentDetails t, BindingResult result){
+	@RequestMapping(value= "/{shortName}/addTournamentDetails", params="MA", method = RequestMethod.POST)
+	public   ModelAndView addMixesAdults(@Valid @ModelAttribute("tournamentDetails")  TournamentDetails t, BindingResult result, @PathVariable String shortName){
 		ModelAndView model = new ModelAndView("tournamentDetails");
 		if (result.hasErrors())
 		{
@@ -548,18 +560,19 @@ public class TournamentDetailsController {
 			model.addObject("tournamentDetailsMixesA", t);
 			model.addObject("listTournamentDetails", this.tournamentDetailsService.listTournamentDetails());
 			model.addObject("hasError", " has-error");
+			model.addObject("shortName", shortName);
 			return model;
 		}
 		else{
 			t.setMode("MA");
 			t.setCategories(categoryCache);
 			if (t.getId()==0){
-				Tournament td = this.tournamentService.getTournamentByShortName("JMTOR");
+				Tournament td = this.tournamentService.getTournamentByShortName(shortName);
 				td.getTournamentDetails().add(t);
 				this.tournamentService.updateTournament(td);
 				this.mode ="MA";
 				this.superMode = "M";
-				model.setViewName("redirect:/tournamentDetails");
+				model.setViewName("redirect:/"+shortName+"/tournamentDetails");
 			}
 			else{
 				TournamentDetails tourDet = this.tournamentDetailsService.getTournamentDetailsById(t.getId());
@@ -583,17 +596,18 @@ public class TournamentDetailsController {
 				tourDet.setGroupsSize(t.getGroupsSize());
 				tourDet.setServeMode(t.getServeMode());
 				this.tournamentDetailsService.updateTournamentDetails(tourDet);
-				model.setViewName("redirect:/tournamentDetails");
+				model.setViewName("redirect:/"+shortName+"/tournamentDetails");
 				this.mode ="MA";
 				this.superMode = "M";
 			    }//else interno
 			}//else global
+		model.addObject("shortName", shortName);
 		return model;
 		
 	}
 	
-	@RequestMapping(value= "/addTournamentDetails", params="MK", method = RequestMethod.POST)
-	public   ModelAndView addMixesKids(@Valid @ModelAttribute("tournamentDetails")  TournamentDetails t, BindingResult result){
+	@RequestMapping(value= "/{shortName}/addTournamentDetails", params="MK", method = RequestMethod.POST)
+	public   ModelAndView addMixesKids(@Valid @ModelAttribute("tournamentDetails")  TournamentDetails t, BindingResult result, @PathVariable String shortName){
 		ModelAndView model = new ModelAndView("tournamentDetails");
 		if (result.hasErrors())
 		{
@@ -601,18 +615,19 @@ public class TournamentDetailsController {
 			model.addObject("tournamentDetailsMixesK", t);
 			model.addObject("listTournamentDetails", this.tournamentDetailsService.listTournamentDetails());
 			model.addObject("hasError", " has-error");
+			model.addObject("shortName", shortName);
 			return model;
 		}
 		else{
 			t.setMode("MK");
 			t.setCategories(categoryCache);
 			if (t.getId()==0){
-				Tournament td = this.tournamentService.getTournamentByShortName("JMTOR");
+				Tournament td = this.tournamentService.getTournamentByShortName(shortName);
 				td.getTournamentDetails().add(t);
 				this.tournamentService.updateTournament(td);
 				this.mode ="MK";
 				this.superMode = "M";
-				model.setViewName("redirect:/tournamentDetails");
+				model.setViewName("redirect:/"+shortName+"/tournamentDetails");
 			}
 			else{
 				TournamentDetails tourDet = this.tournamentDetailsService.getTournamentDetailsById(t.getId());
@@ -636,17 +651,18 @@ public class TournamentDetailsController {
 				tourDet.setGroupsSize(t.getGroupsSize());
 				tourDet.setServeMode(t.getServeMode());
 				this.tournamentDetailsService.updateTournamentDetails(tourDet);
-				model.setViewName("redirect:/tournamentDetails");
+				model.setViewName("redirect:/"+shortName+"/tournamentDetails");
 				this.mode ="MK";
 				this.superMode = "M";
 			    }//else interno
 			}//else global
+		model.addObject("shortName", shortName);
 		return model;
 		
 	}
 	
-	@RequestMapping(value= "/addTournamentDetails", params="SWN", method = RequestMethod.POST)
-	public   ModelAndView addNWomans(@Valid @ModelAttribute("tournamentDetails")  TournamentDetails t, BindingResult result){
+	@RequestMapping(value= "/{shortName}/addTournamentDetails", params="SWN", method = RequestMethod.POST)
+	public   ModelAndView addNWomans(@Valid @ModelAttribute("tournamentDetails")  TournamentDetails t, BindingResult result, @PathVariable String shortName){
 		ModelAndView model = new ModelAndView("tournamentDetails");
 		if (result.hasErrors())
 		{
@@ -654,16 +670,17 @@ public class TournamentDetailsController {
 			model.addObject("tournamentDetailsNWomans", t);
 			model.addObject("listTournamentDetails", this.tournamentDetailsService.listTournamentDetails());
 			model.addObject("hasError", " has-error");
+			model.addObject("shortName", shortName);
 			return model;
 		}
 		else{
 			t.setMode("SWN");
 			t.setCategories(categoryCache);
 			if (t.getId()==0){
-				Tournament td = this.tournamentService.getTournamentByShortName("JMTOR");
+				Tournament td = this.tournamentService.getTournamentByShortName(shortName);
 				td.getTournamentDetails().add(t);
 				this.tournamentService.updateTournament(td);
-				model.setViewName("redirect:/tournamentDetails");
+				model.setViewName("redirect:/"+shortName+"/tournamentDetails");
 			}
 			else{
 				TournamentDetails tourDet = this.tournamentDetailsService.getTournamentDetailsById(t.getId());
@@ -687,17 +704,18 @@ public class TournamentDetailsController {
 				tourDet.setGroupsSize(t.getGroupsSize());
 				tourDet.setServeMode(t.getServeMode());
 				this.tournamentDetailsService.updateTournamentDetails(tourDet);
-				model.setViewName("redirect:/tournamentDetails");
+				model.setViewName("redirect:/"+shortName+"/tournamentDetails");
 				this.mode ="SWN";
 				this.superMode = "S";
 			    }//else interno
 			}//else global
+		model.addObject("shortName", shortName);
 		return model;
 		
 	}
 	
-	@RequestMapping(value= "/addTournamentDetails", params="SMN", method = RequestMethod.POST)
-	public   ModelAndView addNMens(@Valid @ModelAttribute("tournamentDetails")  TournamentDetails t, BindingResult result){
+	@RequestMapping(value= "/{shortName}/addTournamentDetails", params="SMN", method = RequestMethod.POST)
+	public   ModelAndView addNMens(@Valid @ModelAttribute("tournamentDetails")  TournamentDetails t, BindingResult result, @PathVariable String shortName){
 		ModelAndView model = new ModelAndView("tournamentDetails");
 		if (result.hasErrors())
 		{
@@ -705,18 +723,19 @@ public class TournamentDetailsController {
 			model.addObject("tournamentDetailsNMens", t);
 			model.addObject("listTournamentDetails", this.tournamentDetailsService.listTournamentDetails());
 			model.addObject("hasError", " has-error");
+			model.addObject("shortName", shortName);
 			return model;
 		}
 		else{
 			t.setMode("SMN");
 			t.setCategories(categoryCache);
 			if (t.getId()==0){
-				Tournament td = this.tournamentService.getTournamentByShortName("JMTOR");
+				Tournament td = this.tournamentService.getTournamentByShortName(shortName);
 				td.getTournamentDetails().add(t);
 				this.tournamentService.updateTournament(td);
 				this.mode ="SMN";
 				this.superMode = "S";
-				model.setViewName("redirect:/tournamentDetails");
+				model.setViewName("redirect:/"+shortName+"/tournamentDetails");
 			}
 			else{
 				TournamentDetails tourDet = this.tournamentDetailsService.getTournamentDetailsById(t.getId());
@@ -740,17 +759,18 @@ public class TournamentDetailsController {
 				tourDet.setGroupsSize(t.getGroupsSize());
 				tourDet.setServeMode(t.getServeMode());
 				this.tournamentDetailsService.updateTournamentDetails(tourDet);
-				model.setViewName("redirect:/tournamentDetails");
+				model.setViewName("redirect:/"+shortName+"/tournamentDetails");
 				this.mode ="SMN";
 				this.superMode = "S";
 			    }//else interno
 			}//else global
+		model.addObject("shortName", shortName);
 		return model;
 		
 	}
 	
-	@RequestMapping(value= "/addTournamentDetails", params="DMN", method = RequestMethod.POST)
-	public   ModelAndView addNMensD(@Valid @ModelAttribute("tournamentDetails")  TournamentDetails t, BindingResult result){
+	@RequestMapping(value= "/{shortName}/addTournamentDetails", params="DMN", method = RequestMethod.POST)
+	public   ModelAndView addNMensD(@Valid @ModelAttribute("tournamentDetails")  TournamentDetails t, BindingResult result, @PathVariable String shortName){
 		ModelAndView model = new ModelAndView("tournamentDetails");
 		if (result.hasErrors())
 		{
@@ -758,18 +778,19 @@ public class TournamentDetailsController {
 			model.addObject("tournamentDetailsNMensD", t);
 			model.addObject("listTournamentDetails", this.tournamentDetailsService.listTournamentDetails());
 			model.addObject("hasError", " has-error");
+			model.addObject("shortName", shortName);
 			return model;
 		}
 		else{
 			t.setMode("DMN");
 			t.setCategories(categoryCache);
 			if (t.getId()==0){
-				Tournament td = this.tournamentService.getTournamentByShortName("JMTOR");
+				Tournament td = this.tournamentService.getTournamentByShortName(shortName);
 				td.getTournamentDetails().add(t);
 				this.tournamentService.updateTournament(td);
 				this.mode ="DMN";
 				this.superMode = "D";
-				model.setViewName("redirect:/tournamentDetails");
+				model.setViewName("redirect:/"+shortName+"/"+shortName+"/tournamentDetails");
 			}
 			else{
 				TournamentDetails tourDet = this.tournamentDetailsService.getTournamentDetailsById(t.getId());
@@ -793,17 +814,18 @@ public class TournamentDetailsController {
 				tourDet.setGroupsSize(t.getGroupsSize());
 				tourDet.setServeMode(t.getServeMode());
 				this.tournamentDetailsService.updateTournamentDetails(tourDet);
-				model.setViewName("redirect:/tournamentDetails");
+				model.setViewName("redirect:/"+shortName+"/"+shortName+"/tournamentDetails");
 				this.mode ="DMN";
 				this.superMode = "D";
 			    }//else interno
 			}//else global
+		model.addObject("shortName", shortName);
 		return model;
 		
 	}
 	
-	@RequestMapping(value= "/addTournamentDetails", params="DWN", method = RequestMethod.POST)
-	public   ModelAndView addNWomansD(@Valid @ModelAttribute("tournamentDetails")  TournamentDetails t, BindingResult result){
+	@RequestMapping(value= "/{shortName}/addTournamentDetails", params="DWN", method = RequestMethod.POST)
+	public   ModelAndView addNWomansD(@Valid @ModelAttribute("tournamentDetails")  TournamentDetails t, BindingResult result, @PathVariable String shortName){
 		ModelAndView model = new ModelAndView("tournamentDetails");
 		if (result.hasErrors())
 		{
@@ -811,18 +833,19 @@ public class TournamentDetailsController {
 			model.addObject("tournamentDetailsNWomansD", t);
 			model.addObject("listTournamentDetails", this.tournamentDetailsService.listTournamentDetails());
 			model.addObject("hasError", " has-error");
+			model.addObject("shortName", shortName);
 			return model;
 		}
 		else{
 			t.setMode("DWN");
 			t.setCategories(categoryCache);
 			if (t.getId()==0){
-				Tournament td = this.tournamentService.getTournamentByShortName("JMTOR");
+				Tournament td = this.tournamentService.getTournamentByShortName(shortName);
 				td.getTournamentDetails().add(t);
 				this.tournamentService.updateTournament(td);
 				this.mode ="DWN";
 				this.superMode = "D";
-				model.setViewName("redirect:/tournamentDetails");
+				model.setViewName("redirect:/"+shortName+"/tournamentDetails");
 			}
 			else{
 				TournamentDetails tourDet = this.tournamentDetailsService.getTournamentDetailsById(t.getId());
@@ -846,17 +869,18 @@ public class TournamentDetailsController {
 				tourDet.setGroupsSize(t.getGroupsSize());
 				tourDet.setServeMode(t.getServeMode());
 				this.tournamentDetailsService.updateTournamentDetails(tourDet);
-				model.setViewName("redirect:/tournamentDetails");
+				model.setViewName("redirect:/"+shortName+"/tournamentDetails");
 				this.mode ="DWN";
 				this.superMode = "D";
 			    }//else interno
 			}//else global
+		model.addObject("shortName", shortName);
 		return model;
 		
 	}
 	
-	@RequestMapping(value= "/editTournamentDetails/{id}", method = RequestMethod.GET)
-	public String  editPlayer(@PathVariable int id,  Model m){
+	@RequestMapping(value= "/{shortName}/editTournamentDetails/{id}", method = RequestMethod.GET)
+	public String  editPlayer( @PathVariable String shortName, @PathVariable int id,  Model m){
 		
 		List<Category> mensCategoriesS = new ArrayList<Category>();
 		List<Category> nvmensCategoriesS = new ArrayList<Category>();
@@ -869,7 +893,7 @@ public class TournamentDetailsController {
 		List<Category> mixesCategories = new ArrayList<Category>();
 		List<Category> nvmixesCategories = new ArrayList<Category>();
 		
-		Tournament t =this.tournamentService.getTournamentByShortName("JMTOR"); 
+		Tournament t =this.tournamentService.getTournamentByShortName(shortName); 
 		
 		Set<Category> categories = t.getCategories();
 		Iterator<Category> iterator = categories.iterator();
@@ -1142,15 +1166,16 @@ public class TournamentDetailsController {
 	    m.addAttribute("tournamentDetailsDWN", tournamentDetailsDWN);
 	    m.addAttribute("tournamentDetailsMK", tournamentDetailsMK);
 		m.addAttribute("listTournamentDetails", this.tournamentDetailsService.listTournamentDetails());
+		m.addAttribute("shortName", shortName);
 		return "tournamentDetails";
 		
 	}
 	
-	@RequestMapping(value= "/removeTournamentDetails/{id}", method = RequestMethod.GET)
-	public   ModelAndView removeTournametDetails(Model modelm, @PathVariable int id){
+	@RequestMapping(value= "/{shortName}/removeTournamentDetails/{id}", method = RequestMethod.GET)
+	public   ModelAndView removeTournametDetails( @PathVariable String shortName, Model modelm, @PathVariable int id){
 		ModelAndView model = new ModelAndView("tournamentDetails");
 		
-		Tournament t =this.tournamentService.getTournamentByShortName("JMTOR");
+		Tournament t =this.tournamentService.getTournamentByShortName(shortName);
 		TournamentDetails tournamentDetails = this.tournamentDetailsService.getTournamentDetailsById(id);
 		t.getTournamentDetails().remove(tournamentDetails);
 		this.tournamentService.updateTournament(t);
@@ -1301,9 +1326,10 @@ public class TournamentDetailsController {
 	    model.addObject("tournamentDetailsNMensD", tournamentDetailsDMN);
 	    model.addObject("tournamentDetailsNWomansD", tournamentDetailsDMN);
 	    model.addObject("tournamentDetailsMK", tournamentDetailsMK);
+	    model.addObject("shortName", shortName);
 		
 		
-		model.setViewName("redirect:/tournamentDetails");
+		model.setViewName("redirect:/"+shortName+"/tournamentDetails");
 		
 		return model;
 		

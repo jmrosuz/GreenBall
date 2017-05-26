@@ -1,9 +1,10 @@
+
 <section class="container box-logo">
     <header>
         <div class="content-logo">
          
           <div class="logo"> 
-           <img src="resources/img/logo2.png" alt="" />
+           <img src="<%=pathGreenBall%>/resources/img/logo2.png" alt="" />
           </div>
           <div class="box-login"> 
              <a href='login.html'>Login</a>

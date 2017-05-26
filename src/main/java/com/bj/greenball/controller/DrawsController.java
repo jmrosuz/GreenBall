@@ -164,8 +164,8 @@ public class DrawsController {
 //		return "home";
 //	}
 	
-	@RequestMapping(value = "/draws", method = RequestMethod.GET)
-	public ModelAndView pruebas(Locale locale, HttpServletRequest request) {
+	@RequestMapping(value = "/{shortName}/draws", method = RequestMethod.GET)
+	public ModelAndView pruebas(Locale locale, HttpServletRequest request, @PathVariable String shortName) {
 		
 		ModelAndView model = new ModelAndView("draws");
 		
@@ -189,7 +189,7 @@ public class DrawsController {
 		List<Category> mixesCategories = new ArrayList<Category>();
 		List<Category> nvmixesCategories = new ArrayList<Category>();
 		
-Tournament t =this.tournamentService.getTournamentByShortName("JMTOR"); 
+Tournament t =this.tournamentService.getTournamentByShortName(shortName); 
 		
 		Set<Category> categories = t.getCategories();
 		Iterator<Category> iterator = categories.iterator();
@@ -241,12 +241,13 @@ Tournament t =this.tournamentService.getTournamentByShortName("JMTOR");
 	    model.addObject("nvmixesCategories", nvmixesCategories);
 	    
 	    model.addObject("mAvailable", new ArrayList<Player>());
+	    model.addObject("shortName", shortName);
 		
 		return model;
 	}
 	
-	@RequestMapping(value = "/draws", method = RequestMethod.POST)
-	public String fillPlayers( HttpServletRequest request,  Model model) {
+	@RequestMapping(value = "/{shortName}/draws", method = RequestMethod.POST)
+	public String fillPlayers( HttpServletRequest request,  Model model, @PathVariable String shortName) {
 		
 		//Authentication authentication =
 			//	(Authentication) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
@@ -541,7 +542,7 @@ Tournament t =this.tournamentService.getTournamentByShortName("JMTOR");
 		List<Category> mixesCategories = new ArrayList<Category>();
 		List<Category> nvmixesCategories = new ArrayList<Category>();
 		
-		Tournament t =this.tournamentService.getTournamentByShortName("JMTOR"); 
+		Tournament t =this.tournamentService.getTournamentByShortName(shortName); 
 		
 		Set<Category> categories = t.getCategories();
 		Iterator<Category> iterator = categories.iterator();
@@ -816,9 +817,9 @@ Tournament t =this.tournamentService.getTournamentByShortName("JMTOR");
 			    		}
 		    			else if (td.getFormat().equals("RR")){
 		    				//mnvAvailable = this.playerService.listPlayerOnCategory(t.getId(), "SMN", Integer.parseInt(category));
-		    				System.out.println("Tamaño de arreglo:" + mnvAvailable.size());
+		    				System.out.println("Tamano de arreglo:" + mnvAvailable.size());
 		    				numOfGraphRRSMN = roundUp(mnvAvailable.size(), td.getGroupsSize());
-		    				System.out.println("Tamaño de numOfGraphRRSMN:" + numOfGraphRRSMN);
+		    				System.out.println("Tamano de numOfGraphRRSMN:" + numOfGraphRRSMN);
 		    				model.addAttribute("playersPerGroup", td.getGroupsSize());
 		    				List<Match> matchs = this.matchService.listMatchByTourCat(td.getId(), Integer.parseInt(category));
 		    				if (matchs.size() > 0 && isAuto == null){
@@ -939,9 +940,9 @@ Tournament t =this.tournamentService.getTournamentByShortName("JMTOR");
 			    		}
 		    			else if (td.getFormat().equals("RR")){
 		    				//mnvAvailable = this.playerService.listPlayerOnCategory(t.getId(), "SMN", Integer.parseInt(category));
-		    				System.out.println("Tamaño de arreglo:" + wAvailable.size());
+		    				System.out.println("Tamaï¿½o de arreglo:" + wAvailable.size());
 		    				numOfGraphRRSWN = roundUp(wAvailable.size(), td.getGroupsSize());
-		    				System.out.println("Tamaño de numOfGraphRRSMN:" + numOfGraphRRSW);
+		    				System.out.println("Tamaï¿½o de numOfGraphRRSMN:" + numOfGraphRRSW);
 		    				model.addAttribute("playersPerGroup", td.getGroupsSize());
 		    				List<Match> matchs = this.matchService.listMatchByTourCat(td.getId(), Integer.parseInt(category));
 		    				if (matchs.size() > 0 && isAuto == null){
@@ -1062,9 +1063,9 @@ Tournament t =this.tournamentService.getTournamentByShortName("JMTOR");
 			    		}
 		    			else if (td.getFormat().equals("RR")){
 		    				//mnvAvailable = this.playerService.listPlayerOnCategory(t.getId(), "SMN", Integer.parseInt(category));
-		    				System.out.println("Tamaño de arreglo:" + wnvAvailable.size());
+		    				System.out.println("Tamaï¿½o de arreglo:" + wnvAvailable.size());
 		    				numOfGraphRRSWN = roundUp(wnvAvailable.size(), td.getGroupsSize());
-		    				System.out.println("Tamaño de numOfGraphRRSMN:" + numOfGraphRRSWN);
+		    				System.out.println("Tamaï¿½o de numOfGraphRRSMN:" + numOfGraphRRSWN);
 		    				model.addAttribute("playersPerGroup", td.getGroupsSize());
 		    				List<Match> matchs = this.matchService.listMatchByTourCat(td.getId(), Integer.parseInt(category));
 		    				if (matchs.size() > 0 && isAuto == null){
@@ -1945,7 +1946,7 @@ Tournament t =this.tournamentService.getTournamentByShortName("JMTOR");
 	    model.addAttribute("mkAvailableFinal", mkAvailableFinal);
 	    model.addAttribute("numOfGraphMDMK", numOfGraphMDDMK);
 	    model.addAttribute("numOfGraphRRMK", numOfGraphRRDMK);
-	    
+	    model.addAttribute("shortName", shortName);
 	    
 		
 		return "draws";

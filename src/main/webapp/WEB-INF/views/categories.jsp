@@ -59,6 +59,7 @@
 
 
 <style>
+	.separator {width:1px; background-color:transparent;}
 	.tab-links-match {background-color: transparent;}
 	.player-vs .tab-links-match {background-color: transparent;}
 	.player-vs .tab-content.single-match {background: transparent;}
@@ -188,7 +189,8 @@ function toSubmit(){
       <div class="general general-results players">
            <div class="top-score-title right-score col-md-16">
            	  <div id ="atp-match"class="top-score-title player-vs">
-                <h3>Total <span>Scores</span><span class="point-little">.</span></h3>
+                <h3><spring:message code="categories" /> <span class="point-little">.</span></h3>
+                 <p style="text-align:center;"><img alt="" src="<%=pathGreenBall%>/resources/images/draws/drawsState1.png" align="middle" ></p>
                 <div class="main">
                        <div class="tabs standard single-pl">
                                 <ul class="tab-links-match tb-set">
@@ -602,7 +604,13 @@ function toSubmit(){
                                      </div>
           					  </div><!--Close Top Match-->
            				</div>
-           			</div>
+           				<p><input class="pl-point-button" type="button" name="uploadFile" onclick="window.location.href='<%=pathGreenBall%>/tournaments'"
+							value="<spring:message code="prev.tournaments"/>" />
+							<input style="float: right;" class="pl-point-button" type="button" name="uploadFile" onclick="window.location.href='<%=pathGreenBall%>/${shortName}/tournamentDetails'"
+							value="<spring:message code="next.tournamentDetails"/>" />
+							</p>
+							
+           			</div><!-- main -->
          		 </div>
          	</div>
          </div>

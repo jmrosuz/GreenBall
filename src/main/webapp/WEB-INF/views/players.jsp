@@ -186,7 +186,7 @@ function mixesCheckChanges(variable){
       <div class="general general-results" >
 <%@ include file="menu.jsp" %>
 
-
+		
 		<div id="atp-match">
 		          <div class="container">
 		          
@@ -194,7 +194,7 @@ function mixesCheckChanges(variable){
 		<c:if test="${not empty badRows}">
 		
 		<div class="container badfile">
-		<p class="news-title-right">Archivo cargado parcialmente, da click<a href="" data-toggle="modal" data-target="#myModal"> aqui</a> para visualizar los registros erroneos </p>
+		<p class="news-title-right"><spring:message code="players.badFile1"/><a href="" data-toggle="modal" data-target="#myModal"> <spring:message code="players.badFile2"/></a> <spring:message code="players.badFile3"/> </p>
 		</div>
 		
 		<div id="myModal" class="modal fade" role="dialog" >
@@ -204,13 +204,13 @@ function mixesCheckChanges(variable){
 		    <div class="modal-content">
 		      <div class="modal-header">
 		        <button type="button" class="close" data-dismiss="modal">&times;</button>
-		        <h4 class="modal-title">Error en carga de archivo</h4>
+		        <h4 class="modal-title"><spring:message code="players.badLoad"/></h4>
 		      </div>
 		      <div class="modal-body">
-		        <p>Los siguientes renglones de tu archivo presentan errores:<c:out value="${badRows}"></c:out>  </p>
+		        <p><spring:message code="players.badRows"/><c:out value="${badRows}"></c:out>  </p>
 		      </div>
 		      <div class="modal-footer">
-		        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+		        <button type="button" class="btn btn-default" data-dismiss="modal"><spring:message code="greenBall.close"/></button>
 		      </div>
 		    </div>
 		
@@ -221,13 +221,15 @@ function mixesCheckChanges(variable){
 		</c:if>          
 		
 		<h1>
-			Añadir Tenista
+			<spring:message code="players.addPlayer"/>
 		</h1>
 		
-		<c:url var="addAction" value="/addPlayers?${_csrf.parameterName}=${_csrf.token}" ></c:url>
+		<p style="text-align:center;"><img alt="" src="<%=pathGreenBall%>/resources/images/draws/drawsState3.png" align="middle" ></p>
+		
+		<c:url var="addAction" value="/${shortName}/addPlayers?${_csrf.parameterName}=${_csrf.token}" ></c:url>
 		<form:form action="${addAction}" commandName="player" enctype="multipart/form-data">
 		
-		
+		<input type="hidden" value="${shortName}" name="shortName"></input>
 		<div class="container">
 		
 		        
@@ -238,7 +240,7 @@ function mixesCheckChanges(variable){
 				<div class="captura-right-content">
 				<spring:bind path="name">
 				  <div class="form-group ${hasError}">
-					<label class="col-sm-2 control-label">* Nombre</label>
+					<label class="col-sm-2 control-label">* <spring:message code="players.name"/></label>
 					<div class="col-sm-5">
 						<form:input path="name" class="form-control"
 		                                id="name" placeholder="" required="required"/>
@@ -256,7 +258,7 @@ function mixesCheckChanges(variable){
 				<div class="captura-right-content">
 				<spring:bind path="middleName">
 				  <div class="form-group ${hasError} ">
-					<label class="col-sm-2 control-label">* Apellido Paterno</label>
+					<label class="col-sm-2 control-label">* <spring:message code="players.middleName"/></label>
 					<div class="col-sm-5">
 						<form:input path="middleName" class="form-control"
 		                                id="middleName" placeholder="" required="required"/>
@@ -270,7 +272,7 @@ function mixesCheckChanges(variable){
 				<div class="captura-right-content">
 				<spring:bind path="lastName">
 				  <div class="form-group ${hasError}">
-					<label class="col-sm-2 control-label">Apellido Materno</label>
+					<label class="col-sm-2 control-label"><spring:message code="players.lastName"/></label>
 					<div class="col-sm-5">
 						<form:input path="lastName" class="form-control"
 		                                id="lastName" placeholder="" />
@@ -283,7 +285,7 @@ function mixesCheckChanges(variable){
 				<div class="captura-right-content">
 				<spring:bind path="club">
 				  <div class="form-group ${hasError} ">
-					<label class="col-sm-2 control-label">* Club</label>
+					<label class="col-sm-2 control-label">* <spring:message code="players.club"/></label>
 					<div class="col-sm-5">
 						<form:input path="club" class="form-control"
 		                                id="club" placeholder="Nombre o iniciales del club" required="required" />
@@ -296,7 +298,7 @@ function mixesCheckChanges(variable){
 				<div class="captura-right-content">
 				<spring:bind path="telephone">
 				  <div class="form-group">
-					<label class="col-sm-2 control-label">Telefono</label>
+					<label class="col-sm-2 control-label"><spring:message code="players.telephone"/></label>
 					<div class="col-sm-5">
 						<form:input path="telephone" class="input-medium bfh-phone form-control" data-format=" (ddd) ddd-dddd"
 		                                id="telephone" placeholder="(XXX) XXX-XXXX"/>
@@ -310,7 +312,7 @@ function mixesCheckChanges(variable){
 				<div class="captura-right-content">
 				<spring:bind path="email">
 				  <div class="form-group ${hasError}">
-					<label class="col-sm-2 control-label">Email</label>
+					<label class="col-sm-2 control-label"><spring:message code="players.email"/></label>
 					<div class="col-sm-5">
 						<form:input path="email" class="form-control"
 		                                id="email" placeholder="usuario@dominio.com" />
@@ -323,7 +325,7 @@ function mixesCheckChanges(variable){
 				<div class="captura-right-content">
 				<spring:bind path="sex">
 				  <div class="form-group">
-					<label class="col-sm-2 control-label">* Sexo</label>
+					<label class="col-sm-2 control-label">* <spring:message code="players.sex"/></label>
 					<div class="col-sm-5">
 						<form:select path="sex" class="form-control" onchange="javascript:kidsChanged(this);"
 		                                id="sex">
@@ -342,7 +344,7 @@ function mixesCheckChanges(variable){
 				<div class="captura-right-content">
 				<spring:bind path="kid">
 				  <div class="form-group">
-					<label class="col-sm-2 control-label">Es Nuevo Valor</label>
+					<label class="col-sm-2 control-label"><spring:message code="players.isKid"/></label>
 					<div class="col-sm-5">
 						<form:checkbox path="kid" class="form-control"
 		                                id="kid"  onchange="javascript:kidsChanged(this);" />
@@ -354,7 +356,7 @@ function mixesCheckChanges(variable){
 				
 				<div class="captura-right-content">
 				  <div class="form-group">
-				  	<label class="col-sm-2 control-label">Singles</label>
+				  	<label class="col-sm-2 control-label"><spring:message code="players.singles"/></label>
 				  	<c:if test="${ empty player.singlesCategory}">
 						<div class="col-sm-1">
 	  							<input type="checkbox"  class="form-control"
@@ -392,7 +394,7 @@ function mixesCheckChanges(variable){
 				
 				<div class="captura-right-content">
 				  <div class="form-group">
-				  	<label class="col-sm-2 control-label">Dobles</label>
+				  	<label class="col-sm-2 control-label"><spring:message code="players.doubles"/></label>
 				  	<c:if test="${ empty player.doublesCategory}">
 						<div class="col-sm-1">
 	  							<input type="checkbox"  class="form-control"
@@ -427,7 +429,7 @@ function mixesCheckChanges(variable){
 				
 				<div class="captura-right-content">
 				  <div class="form-group">
-				  	<label class="col-sm-2 control-label">Mixtos</label>
+				  	<label class="col-sm-2 control-label"><spring:message code="players.mixes"/></label>
 				  	<c:if test="${ empty player.mixesCategory}">
 						<div class="col-sm-1">
 	  							<input type="checkbox"  class="form-control"
@@ -469,13 +471,13 @@ function mixesCheckChanges(variable){
 				<td colspan="2">
 					<c:if test="${!empty player.name}">
 						<input class="pl-point-button" type="submit"
-							value="<spring:message text="Guardar"/>" />
+							value="<spring:message code="greenBall.guardar"/>" />
 						<input class="pl-point-button" type="submit"
-							value="<spring:message text="Cancelar"/>" name="cancelar" />
+							value="<spring:message code="greenBall.cancelar"/>" name="cancelar" />
 					</c:if>
 					<c:if test="${empty player.name}">
 						<input class="pl-point-button" type="submit"
-							value="<spring:message text="Añadir"/>" /> 
+							value="<spring:message code="greenBall.anadir"/>" /> 
 					</c:if>
 				</td>
 			</tr>
@@ -485,42 +487,50 @@ function mixesCheckChanges(variable){
 		
 		  
 		<p></p>
-		<p><label>Dar click en Seleccionar archivo para cargar los datos a través de un excel</label></p>
+		<p><label><spring:message code="players.select"/></label></p>
 		  
 		<p><input name="file" id="fileToUpload" type="file" /></p>  
 		<p><input class="pl-point-button" type="submit" name="uploadFile"
-							value="<spring:message text="Subir Archivo"/>" /></p>
+							value="<spring:message code="players.uploadFile"/>" /></p>
 		
 		
-		  <h3>Lista de Tenistas</h3><input type="submit" name="borrarTodo" class="pl-point-button btn pull-right" value="<spring:message text="Borrar todo"/>"/>
+		  <h3><spring:message code="players.list"/></h3><input type="submit" name="borrarTodo" class="pl-point-button btn pull-right" value="<spring:message code="players.borrarTodo"/>"/>
 		
 		<c:if test="${!empty listPlayers}">
 			<div class="tab-content">
 			<table class="tab-score">
 			<tr class="top-score-table">
-				<td width="80">Player ID</td>
-				<td width="120">Player Name</td>
-				<td width="120">Club</td>
-				<td width="60">Editar</td>
-				<td width="60">Borrar</td>
+				<td width="80"><spring:message code="players.id"/></td>
+				<td width="120"><spring:message code="players.name"/></td>
+				<td width="120"><spring:message code="players.club"/></td>
+				<td width="60"><spring:message code="greenBall.editar"/></td>
+				<td width="60"><spring:message code="greenBall.borrar"/></td>
 			</tr>
 			<c:forEach items="${listPlayers}" var="player">
 				<tr>
 					<td>${player.idPlayer}</td>
 					<td>${player.name} ${player.middleName} ${player.lastName}</td>
 					<td>${player.club}</td>
-					<td><a href="<c:url value='/editPlayer/${player.idPlayer}' />" >Editar</a></td>
-					<td><a href="<c:url value='/removePlayer/${player.idPlayer}' />" >Borrar</a></td>
+					<td><a href="<c:url value='/${shortName}/editPlayer/${player.idPlayer}' />" ><spring:message code="greenBall.editar"/></a></td>
+					<td><a href="<c:url value='/${shortName}/removePlayer/${player.idPlayer}' />" ><spring:message code="greenBall.borrar"/></a></td>
 				</tr>
 			</c:forEach>
 			</table>
 			</div>
 		</c:if>
 		
+		<div><p></p><p><input class="pl-point-button" type="button" name="uploadFile" onclick="window.location.href='<%=pathGreenBall%>/${shortName}/tournamentDetails'"
+							value="<spring:message code="prev.tournamentDetails"/>" />
+							<input style="float: right;" class="pl-point-button" type="button" name="uploadFile" onclick="window.location.href='<%=pathGreenBall%>/${shortName}/draws'"
+							value="<spring:message code="next.draws"/>" />
+							</p></div>
+		
 		<div class="content-banner">
 			<ul class="sponsor second"></ul>
 		</div>
 		</form:form>
+		
+		
 		</div>
 		
 		

@@ -115,8 +115,8 @@ public class PlayerController {
 //		return "home";
 //	}
 	
-	@RequestMapping(value = "/players", method = RequestMethod.GET)
-	public ModelAndView listPersons() {
+	@RequestMapping(value = "/{shortName}/players", method = RequestMethod.GET)
+	public ModelAndView listPersons(@PathVariable String shortName) {
 		
 		List<Category> mensCategoriesS = new ArrayList<Category>();
 		List<Category> nvmensCategoriesS = new ArrayList<Category>();
@@ -136,7 +136,7 @@ public class PlayerController {
 		//Authentication authentication =
 			//	(Authentication) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		
-		Set<Category> categories = this.tournamentService.getTournamentByShortName("JMTOR").getCategories();
+		Set<Category> categories = this.tournamentService.getTournamentByShortName(shortName).getCategories();
 		Iterator<Category> iterator = categories.iterator();
 	    while(iterator.hasNext()) {
 	        Category cat = iterator.next();
@@ -183,17 +183,19 @@ public class PlayerController {
 	    model.addObject("nvwomansCategoriesD", nvwomansCategoriesD);
 	    model.addObject("mixesCategories", mixesCategories);
 	    model.addObject("nvmixesCategories", nvmixesCategories);
+	    model.addObject("shortName", shortName);
+	    
 		
 		return model;
 	}
 	
 	
-	@RequestMapping(value = "/addPlayers", method = RequestMethod.POST, params="borrarTodo")
-	public ModelAndView deletePlayers() {
+	@RequestMapping(value = "/{shortName}/addPlayers", method = RequestMethod.POST, params="borrarTodo")
+	public ModelAndView deletePlayers(@PathVariable String shortName) {
 		Tournament t = null;
 		ModelAndView model = new ModelAndView("players");
 		
-			t = this.tournamentService.getTournamentById(1);
+			t = this.tournamentService.getTournamentByShortName(shortName);
 			Set<Player> allPlayers = new HashSet<Player>();
 			Iterator<Player> iterator = t.getPlayers().iterator();
 		    while(iterator.hasNext()) {
@@ -213,28 +215,30 @@ public class PlayerController {
 			
 			model.addObject("player", new Player());
 			model.addObject("listPlayers", this.playerService.listPlayer(1));
+			model.addObject("shortName", shortName);
 		
 		
-		model.setViewName("redirect:/players");
+		model.setViewName("redirect:/"+shortName+"/players");
 		
 		return model;
 	}
 	
-	@RequestMapping(value="/addPlayers",params="cancelar",method=RequestMethod.POST)
-    public ModelAndView cancelar()
+	@RequestMapping(value="/{shortName}/addPlayers",params="cancelar",method=RequestMethod.POST)
+    public ModelAndView cancelar(@PathVariable String shortName)
     {
 		ModelAndView model = new ModelAndView("players");
 		model.addObject("player", new Player());
 		model.addObject("listPlayers", this.playerService.listPlayer(1));
 		//Authentication authentication =
 			//	(Authentication) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-		model.setViewName("redirect:/players");
+		model.setViewName("redirect:/"+shortName+"/players");
+		model.addObject("shortName", shortName);
 		
 		return model;
     }
 
-	@RequestMapping(value= "/addPlayers", method = RequestMethod.POST)
-	public   ModelAndView addPerson(@Valid @ModelAttribute("player")  Player p,  BindingResult result, HttpServletRequest request){
+	@RequestMapping(value= "/{shortName}/addPlayers", method = RequestMethod.POST)
+	public   ModelAndView addPerson(@Valid @ModelAttribute("player")  Player p,  BindingResult result, HttpServletRequest request, @PathVariable String shortName){
 		Tournament t = null;
 		ModelAndView model = new ModelAndView("players");
 		
@@ -278,6 +282,28 @@ public class PlayerController {
 			model.addObject("listPlayers", this.playerService.listPlayer(1));
 			model.addObject("hasError", " has-error");
 			
+			
+			
+			
+			
+			
+			}
+			else{
+				if (p.getIdPlayer()==0){ 
+					t = this.tournamentService.getTournamentByShortName(shortName);
+					t.getPlayers().add(p);
+					this.tournamentService.updateTournament(t);
+					model.addObject("player", new Player());
+					model.addObject("listPlayers", this.playerService.listPlayer(1));
+				}
+				else{
+					this.playerService.updatePlayer(p);
+					
+					model.setViewName("redirect:/"+shortName+"/players");
+				}
+				
+			}
+			
 			List<Category> mensCategoriesS = new ArrayList<Category>();
 			List<Category> nvmensCategoriesS = new ArrayList<Category>();
 			List<Category> mensCategoriesD = new ArrayList<Category>();
@@ -290,7 +316,7 @@ public class PlayerController {
 			List<Category> nvmixesCategories = new ArrayList<Category>();
 			
 			
-			Set<Category> categories = this.tournamentService.getTournamentByShortName("JMTOR").getCategories();
+			Set<Category> categories = this.tournamentService.getTournamentByShortName(shortName).getCategories();
 			Iterator<Category> iterator = categories.iterator();
 		    while(iterator.hasNext()) {
 		        Category cat = iterator.next();
@@ -337,26 +363,7 @@ public class PlayerController {
 		    model.addObject("nvwomansCategoriesD", nvwomansCategoriesD);
 		    model.addObject("mixesCategories", mixesCategories);
 		    model.addObject("nvmixesCategories", nvmixesCategories);
-			
-			
-			
-			
-			}
-			else{
-				if (p.getIdPlayer()==0){ 
-					t = this.tournamentService.getTournamentById(1);
-					t.getPlayers().add(p);
-					this.tournamentService.updateTournament(t);
-					model.addObject("player", new Player());
-					model.addObject("listPlayers", this.playerService.listPlayer(1));
-				}
-				else{
-					this.playerService.updatePlayer(p);
-					
-					model.setViewName("redirect:/players");
-				}
-				
-			}
+		    model.addObject("shortName", shortName);
 			
 			return model;
 			
@@ -365,7 +372,7 @@ public class PlayerController {
 			
 			
 			if (p.getIdPlayer()==0){ 
-				t = this.tournamentService.getTournamentById(1);
+				t = this.tournamentService.getTournamentByShortName(shortName);
 				t.getPlayers().add(p);
 				this.tournamentService.updateTournament(t);
 				model.addObject("player", new Player());
@@ -374,8 +381,69 @@ public class PlayerController {
 			else{
 				this.playerService.updatePlayer(p);
 				
-				model.setViewName("redirect:/players");
+				model.setViewName("redirect:/"+shortName+"/players");
 			}
+			
+			List<Category> mensCategoriesS = new ArrayList<Category>();
+			List<Category> nvmensCategoriesS = new ArrayList<Category>();
+			List<Category> mensCategoriesD = new ArrayList<Category>();
+			List<Category> nvmensCategoriesD = new ArrayList<Category>();
+			List<Category> womansCategoriesS = new ArrayList<Category>();
+			List<Category> nvwomansCategoriesS = new ArrayList<Category>();
+			List<Category> womansCategoriesD = new ArrayList<Category>();
+			List<Category> nvwomansCategoriesD = new ArrayList<Category>();
+			List<Category> mixesCategories = new ArrayList<Category>();
+			List<Category> nvmixesCategories = new ArrayList<Category>();
+			
+			
+			Set<Category> categories = this.tournamentService.getTournamentByShortName(shortName).getCategories();
+			Iterator<Category> iterator = categories.iterator();
+		    while(iterator.hasNext()) {
+		        Category cat = iterator.next();
+		        String sex = cat.getSex();
+		        if (sex.equals("M")){
+		        	mensCategoriesS.add(cat);
+		        }
+		        else if (sex.equals("MD")){
+		        	mensCategoriesD.add(cat);
+		        }
+		        else if (sex.equals("NVM")){
+		        	nvmensCategoriesS.add(cat);
+		        }
+		        else if (sex.equals("NVMD")){
+		        	nvmensCategoriesD.add(cat);
+		        }
+		        else if (sex.equals("W")){
+		        	womansCategoriesS.add(cat);
+		        }
+		        else if (sex.equals("WD")){
+		        	womansCategoriesD.add(cat);
+		        }
+		        else if (sex.equals("NVW")){
+		        	nvwomansCategoriesS.add(cat);
+		        }
+		        else if (sex.equals("NVWD")){
+		        	nvwomansCategoriesD.add(cat);
+		        }
+		        else if (sex.equals("MIX")){
+		        	mixesCategories.add(cat);
+		        }
+		        else if(sex.equals("NVMIX")){
+		        	nvmixesCategories.add(cat);
+		        }
+		    }
+		    
+		    model.addObject("mensCategoriesS", mensCategoriesS);
+		    model.addObject("mensCategoriesD", mensCategoriesD);
+		    model.addObject("nvmensCategoriesS", nvmensCategoriesS);
+		    model.addObject("nvmensCategoriesD", nvmensCategoriesD);
+		    model.addObject("womansCategoriesS", womansCategoriesS);
+		    model.addObject("womansCategoriesD", womansCategoriesD);
+		    model.addObject("nvwomansCategoriesS", nvwomansCategoriesS);
+		    model.addObject("nvwomansCategoriesD", nvwomansCategoriesD);
+		    model.addObject("mixesCategories", mixesCategories);
+		    model.addObject("nvmixesCategories", nvmixesCategories);
+		    model.addObject("shortName", shortName);
 			
 		}
 		
@@ -385,8 +453,8 @@ public class PlayerController {
 		
 	}
 	
-	@RequestMapping(value= "/editPlayer/{idPlayer}", method = RequestMethod.GET)
-	public String  editPlayer(@PathVariable int idPlayer,  Model model){
+	@RequestMapping(value= "/{shortName}/editPlayer/{idPlayer}", method = RequestMethod.GET)
+	public String  editPlayer(@PathVariable String shortName, @PathVariable int idPlayer,  Model model){
 		Player player = this.playerService.getPlayerById(idPlayer);
 		model.addAttribute("player", player);
 		model.addAttribute("listPlayers", this.playerService.listPlayer(1));
@@ -408,7 +476,7 @@ public class PlayerController {
 		
 		
 		
-		Set<Category> categories = this.tournamentService.getTournamentByShortName("JMTOR").getCategories();
+		Set<Category> categories = this.tournamentService.getTournamentByShortName(shortName).getCategories();
 		Iterator<Category> iterator = categories.iterator();
 	    while(iterator.hasNext()) {
 	        Category cat = iterator.next();
@@ -446,7 +514,7 @@ public class PlayerController {
 	    }
 	    
 	    if (player.getSinglesCategory()!= null ){
-	    	System.out.println("Comparando: "+ player.getSinglesCategory().getName());
+	    	
 	    	if (player.getSinglesCategory().getSex().equals("M")){
 	    		model.addAttribute("singlesAvailable", mensCategoriesS);
 	    	}
@@ -496,19 +564,20 @@ public class PlayerController {
 	    model.addAttribute("nvwomansCategoriesD", nvwomansCategoriesD);
 	    model.addAttribute("mixesCategories", mixesCategories);
 	    model.addAttribute("nvmixesCategories", nvmixesCategories);
+	    model.addAttribute("shortName", shortName);
 	    
 		
 		return "players";
 		
 	}
 	
-	@RequestMapping(value= "/removePlayer/{idPlayer}", method = RequestMethod.GET)
-	public   ModelAndView removePlayer(Model modelm, @PathVariable int idPlayer){
+	@RequestMapping(value= "/{shortName}/removePlayer/{idPlayer}", method = RequestMethod.GET)
+	public   ModelAndView removePlayer(@PathVariable String shortName, Model modelm, @PathVariable int idPlayer){
 		Tournament t = null;
 		ModelAndView model = new ModelAndView("players");
 		
 		
-			t = this.tournamentService.getTournamentById(1);
+			t = this.tournamentService.getTournamentByShortName(shortName);
 			
 			Iterator<Player> iterator = t.getPlayers().iterator();
 		    while(iterator.hasNext()) {
@@ -524,16 +593,17 @@ public class PlayerController {
 			
 			model.addObject("player", new Player());
 			model.addObject("listPlayers", this.playerService.listPlayer(1));
+			model.addObject("shortName", shortName);
 		
 		
-		model.setViewName("redirect:/players");
+		model.setViewName("redirect:/"+shortName+"/players");
 		
 		return model;
 		
 	}
 	
-	@RequestMapping(value="addPlayers",method=RequestMethod.POST, params="uploadFile")  
-    public ModelAndView saveFile( @RequestParam CommonsMultipartFile file,  
+	@RequestMapping(value="/{shortName}/addPlayers",method=RequestMethod.POST, params="uploadFile")  
+    public ModelAndView saveFile( @PathVariable String shortName, @RequestParam CommonsMultipartFile file,  
            HttpSession session) throws Exception{ 
     	    
   
@@ -548,7 +618,7 @@ public class PlayerController {
 	
 	if (filename == null ||filename.equals("")){
 		model.addObject("listPlayers", this.playerService.listPlayer(1));
-		model.setViewName("redirect:/players");
+		model.setViewName("redirect:/"+shortName+"/players");
 		return model;
 	}
     
@@ -577,7 +647,7 @@ public class PlayerController {
     String badRows = "2,3,4,5,";
     model.addObject("badRows", badRows);
     
-    Tournament t = this.tournamentService.getTournamentById(1);
+    Tournament t = this.tournamentService.getTournamentByShortName(shortName);
 	
     
 	Iterator<Player> iterator = players.iterator();
@@ -591,6 +661,7 @@ public class PlayerController {
     
     
 	model.addObject("listPlayers", this.playerService.listPlayer(1));
+	model.addObject("shortName", shortName);
            
     return model;  
     }

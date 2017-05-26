@@ -32,8 +32,8 @@ $('#datepicker').on('changeDate', function() {
 		
 		
 		<div class="captura-right-label">
-			<label class="col-sm-4 control-label">* Nombre</label>
-			<label class="col-sm-4 control-label">* Nombre Corto</label>
+			<label class="col-sm-4 control-label"><spring:message code="tournaments.name" /></label>
+			<label class="col-sm-4 control-label"><spring:message code="tournaments.shortName" /></label>
 		</div>
 		
 		<div class="captura-right-content">
@@ -60,8 +60,8 @@ $('#datepicker').on('changeDate', function() {
 		
 		
 		<div class="captura-right-label">
-			<label class="col-sm-4 control-label">* Arbitro</label>
-			<label class="col-sm-4 control-label">* Num. Tenistas</label>
+			<label class="col-sm-4 control-label"><spring:message code="tournaments.referee" /></label>
+			<label class="col-sm-4 control-label"><spring:message code="tournaments.numPlayers" /></label>
 		</div>
 		
 	
@@ -91,11 +91,11 @@ $('#datepicker').on('changeDate', function() {
 		<div class="captura-right-content">
 		
 		  <div class="form-group">
-			<label class="col-sm-2 control-label">* Inicio-Fin</label>
+			<label class="col-sm-2 control-label"><spring:message code="tournaments.startEnd"/></label>
 			<div class="col-sm-5">
 				<div class="input-daterange input-group" id="datepicker">
     				<form:input type="text" class="input-sm form-control" name="start" path="startDate" required="required"/>
-    				<span class="input-group-addon">a</span>
+    				<span class="input-group-addon"><spring:message code="tournaments.a"/></span>
     				<form:input type="text" class="input-sm form-control" name="end" path="endDate" required="required"/>
 				</div>
 			
@@ -106,8 +106,8 @@ $('#datepicker').on('changeDate', function() {
 		</div>
 		
 		<div class="captura-right-label">
-			<label class="col-sm-4 control-label">* Club</label>
-			<label class="col-sm-4 control-label">* Telefono</label>
+			<label class="col-sm-4 control-label"><spring:message code="tournaments.club"/></label>
+			<label class="col-sm-4 control-label"><spring:message code="tournaments.telefono"/></label>
 		</div>
 		
 		<div class="captura-right-content">
@@ -134,14 +134,14 @@ $('#datepicker').on('changeDate', function() {
 		</div>
 		
 		<div class="captura-right-label">
-			<label class="col-sm-4 control-label">Dirección</label>
+			<label class="col-sm-4 control-label"><spring:message code="tournaments.direccion"/></label>
 			
 		</div>
 		
 		<div class="captura-right-label">
-			<label class="col-sm-3 control-label">* Calle</label>
-			<label class="col-sm-2 control-label">* Número</label>
-			<label class="col-sm-2 control-label">* CP</label>
+			<label class="col-sm-3 control-label"><spring:message code="tournaments.calle"/></label>
+			<label class="col-sm-2 control-label"><spring:message code="tournaments.numero"/></label>
+			<label class="col-sm-2 control-label"><spring:message code="tournaments.cp"/></label>
 		</div>
 		
 		<div class="captura-right-content">
@@ -183,9 +183,9 @@ $('#datepicker').on('changeDate', function() {
 		
 		
 		<div class="captura-right-label">
-			<label class="col-sm-3 control-label">* Colonia</label>
-			<label class="col-sm-2 control-label">* Estado</label>
-			<label class="col-sm-2 control-label">* País</label>
+			<label class="col-sm-3 control-label"><spring:message code="tournaments.colonia"/></label>
+			<label class="col-sm-2 control-label"><spring:message code="tournaments.estado"/></label>
+			<label class="col-sm-2 control-label"><spring:message code="tournaments.pais"/></label>
 		</div>
 		
 		<div class="captura-right-content">
@@ -230,13 +230,13 @@ $('#datepicker').on('changeDate', function() {
 		<td colspan="2">
 			<c:if test="${!empty tournament.name}">
 				<input class="pl-point-button" type="submit"
-					value="<spring:message text="Guardar"/>" />
+					value="<spring:message code="greenBall.guardar"/>" />
 				<input class="pl-point-button" type="submit"
 					value="<spring:message text="Cancelar"/>" name="cancelar" />
 			</c:if>
 			<c:if test="${empty tournament.name}">
 				<input class="pl-point-button" type="submit"
-					value="<spring:message text="Añadir"/>" /> 
+					value="<spring:message code="greenBall.anadir"/>" /> 
 			</c:if>
 		</td>
 	</tr>
@@ -250,19 +250,19 @@ $('#datepicker').on('changeDate', function() {
 
 
 
-  <h3>Lista de Torneos</h3><input type="submit" name="borrarTodo" class="pl-point-button btn pull-right" value="<spring:message text="Borrar todo"/>"/>
+  <h3><spring:message code="tournaments.listaTorneos"/></h3><input type="submit" name="borrarTodo" class="pl-point-button btn pull-right" value="<spring:message text="Borrar todo"/>"/>
 
 <c:if test="${!empty listTournaments}">
 	<div class="tab-content">
 	<table class="tab-score">
 	<tr class="top-score-table">
-		<td width="80">Nombre Corto</td>
-		<td width="120">Nombre</td>
-		<td width="120">Inicio</td>
-		<td width="120">Fin</td>
-		<td width="60">Editar</td>
-		<td width="60">Borrar</td>
-		<td width="60">Configurar</td>
+		<td width="80"><spring:message code="tournaments.shortName2"/></td>
+		<td width="120"><spring:message code="tournaments.name2"/></td>
+		<td width="120"><spring:message code="tournaments.start"/></td>
+		<td width="120"><spring:message code="tournaments.end"/></td>
+		<td width="60"><spring:message code="greenBall.editar"/></td>
+		<td width="60"><spring:message code="greenBall.borrar"/></td>
+		<td width="60"><spring:message code="tournaments.configurar"/></td>
 		<td width="60">URL</td>
 	</tr>
 	<c:forEach items="${listTournaments}" var="tournament">
@@ -271,10 +271,10 @@ $('#datepicker').on('changeDate', function() {
 			<td>${tournament.name}</td>
 			<td>${tournament.startDate}</td>
 			<td>${tournament.endDate}</td>
-			<td><a href="<c:url value='/editTournament/${tournament.id}' />" >Editar</a></td>
-			<td><a href="<c:url value='/removeTournament/${tournament.id}' />" >Borrar</a></td>
-			<td><a href="<c:url value='/${tournament.shortName}/categories' />" >Configurar</a></td>
-			<td><a href="<c:url value='/removeTournament/${tournament.id}' />" >URL</a></td>
+			<td><a href="<c:url value='/editTournament/${tournament.id}' />" ><spring:message code="greenBall.editar"/></a></td>
+			<td><a href="<c:url value='/removeTournament/${tournament.id}' />" ><spring:message code="greenBall.borrar"/></a></td>
+			<td><a href="<c:url value='/${tournament.shortName}/categories' />" ><spring:message code="tournaments.configurar"/></a></td>
+			<td><a href="<c:url value='/removeTournament/${tournament.id}' />" ><spring:message code="tournaments.url"/></a></td>
 		</tr>
 	</c:forEach>
 	</table>

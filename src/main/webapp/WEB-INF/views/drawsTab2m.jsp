@@ -5,7 +5,7 @@
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form" %>
 <%@ taglib uri="http://www.springframework.org/tags" prefix="spring" %>
 <%String pathGreenBall = request.getContextPath(); %>
-<c:url var="addAction" value="/addDraws" ></c:url>
+<c:url var="addAction" value="/${shortName}/addDraws" ></c:url>
 <c:choose>
                                             		<c:when test="${currentMode eq 'MK' }">
                                             			<c:set var="isMK" value="tab active"></c:set>
@@ -23,10 +23,10 @@
                                             		
                                             			<div class="captura-right-content">
                                             				<div class="form-group">
-                                            					<label class="col-sm-2 control-label">Categoria</label>
+                                            					<label class="col-sm-2 control-label"><spring:message code="draws.category"/></label>
                                             					<div class="col-sm-4">
 																	<select name="mkCat" id="mkCat" class="form-control" id="mkCat" onchange="javascript:categorySelectedMethod('MK');" >
-																		<option value="0">Selecciona una Categoria</option>
+																		<option value="0"><spring:message code="draws.selectCategory"/></option>
 																		<c:forEach items="${nvmixesCategories}" var="cat">
 																					<c:choose>
 																						<c:when test="${wscSelected == cat.id}">
